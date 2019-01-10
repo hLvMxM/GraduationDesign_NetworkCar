@@ -17,4 +17,9 @@ public class Index {
 	public String hello() {
 		return "hello";
 	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
 }
