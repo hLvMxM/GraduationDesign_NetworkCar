@@ -13,7 +13,9 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/index").permitAll()
 			.antMatchers("/hello").authenticated()
 			.and()
-		.formLogin().loginPage("/login");
+		.formLogin().loginPage("/login")
+		.loginProcessingUrl("/api/login")
+		.permitAll();
 	}
 	
 }
