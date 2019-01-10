@@ -15,7 +15,8 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 		.formLogin().loginPage("/login")
 		.loginProcessingUrl("/api/login")
-		.permitAll();
+		.permitAll()
+		.and().csrf().disable();
 	}
 	
 }
