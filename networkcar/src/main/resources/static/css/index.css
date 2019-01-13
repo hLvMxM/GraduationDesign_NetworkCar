@@ -1,0 +1,30 @@
+nav{
+    background: #2f333e;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.navbar{
+    border-radius: 0%;
+}
+
+.container-fluid{
+    padding: 0 30px;
+    display: flex;
+}
+
+.navbar-holder{
+    display: block;
+}
+
+nav.navbar a{
+    color:white;
+}
+
+nav.navbar .nav-menu{
+    margin-bottom: 0;
+}
+
+.d-flex{
+    display: flex!important;
+}
