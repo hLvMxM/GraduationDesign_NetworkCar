@@ -1,3 +1,7 @@
+body{
+    background: #EEF5F9;
+}
+
 nav{
     background: #2f333e;
     padding-top: 5px;
@@ -5,6 +9,7 @@ nav{
 }
 
 .navbar{
+    margin-bottom: 0%;
     border-radius: 0%;
 }
 
@@ -14,6 +19,7 @@ nav{
 }
 
 .navbar-holder{
+    width: 100%;
     display: block;
 }
 
@@ -27,4 +33,37 @@ nav.navbar .nav-menu{
 
 .d-flex{
     display: flex!important;
+}
+
+li{
+    display: list-item;
+}
+
+.fa{
+    font: normal normal normal 14px/1 FontAwesome;
+    display: inline-block;
+}
+
+.d-sm-inline{
+    display: inline!important;
+}
+
+.align-items-md-center{
+    align-items: center!important;
+}
+
+nav.side-navbar{
+    margin-top: 0%;
+    background: #fff;
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    z-index: 9;
+}
+
+.content-inner{
+    position: relative;
+    width: calc(100% - 250px);
+    min-height: calc(100vh - 70px);
 }
