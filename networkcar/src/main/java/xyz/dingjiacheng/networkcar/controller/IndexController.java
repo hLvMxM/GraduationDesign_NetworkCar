@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @Controller
-public class Index {
+public class IndexController {
 	
 	@GetMapping("/index")
 	public String index() {
@@ -25,5 +25,9 @@ public class Index {
 		return "login";
 	}
 	
+	@GetMapping("/map")
+	public String map() {
+		return "map";
+	}
 	
 }
