@@ -13,7 +13,7 @@
 </html>
 <script type="text/javascript">
 	// 百度地图API功能
-	var map = new BMap.Map("allmap");    // 创建Map实例           
+	var map = new BMap.Map("allmap",{minZoom:12,maxZoom:16});    // 创建Map实例           
 	map.centerAndZoom("成都",13);
 	//添加地图类型控件
 	map.addControl(new BMap.MapTypeControl({
@@ -23,9 +23,19 @@
         ]}));	  
 	map.setCurrentCity("成都");          // 设置地图显示的城市 此项是必须设置的
 	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-	
-	var pt = new BMap.Point(116.417, 39.909);
-	var myIcon = new BMap.Icon("../static/image/car.jpg", new BMap.Size(28,18));
-	var marker2 = new BMap.Marker(pt,{icon:myIcon});
-	map.addOverlay(marker2);
+	function all(){
+		map.clearOverlays()
+		var points = [];  // 添加海量点数据
+        for (var i = 0; i < 1000; i++) {
+          points.push(new BMap.Point(104.113560+Math.random()-0.5,30.704262+Math.random()-0.5));
+        }
+        var options = {
+            size: BMAP_POINT_SIZE_SMALL,
+            shape: BMAP_POINT_SHAPE_STAR,
+            color: '#d340c3'
+        }
+        var pointCollection = new BMap.PointCollection(points, options);
+		map.addOverlay(pointCollection);
+	}
+	setInterval(all,5000);
 </script>
