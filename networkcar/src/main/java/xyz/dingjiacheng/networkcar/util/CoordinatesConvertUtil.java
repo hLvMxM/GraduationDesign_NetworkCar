@@ -1,7 +1,7 @@
 package xyz.dingjiacheng.networkcar.util;
 
 import java.math.BigDecimal;
-import static java.lang.Math.*;
+import static java.lang.StrictMath.*;
 
 public class CoordinatesConvertUtil {
 	private  static double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
@@ -48,51 +48,3 @@ public class CoordinatesConvertUtil {
     
 }
 
-class MapCordinatesVo  {
-
-    /**
-     * 纬度
-     */
-    private BigDecimal lat;
-
-    /**
-     * 经度
-     */
-    private BigDecimal lon;
-
-	public BigDecimal getLat() {
-		return lat;
-	}
-
-	public void setLat(BigDecimal lat) {
-		this.lat = lat;
-	}
-
-	public BigDecimal getLon() {
-		return lon;
-	}
-
-	public void setLon(BigDecimal lon) {
-		this.lon = lon;
-	}
-
-	public MapCordinatesVo() {
-		
-	}
-	
-	public MapCordinatesVo(BigDecimal lat, BigDecimal lon) {
-		super();
-		this.lat = lat;
-		this.lon = lon;
-	}
-	
-	public MapCordinatesVo(double lat,double lon) {
-		this(new BigDecimal(lat),new BigDecimal(lon));
-	}
-	
-	@Override
-	public String toString() {
-		return "[" + lat + ":" + lon+ "]";
-	}
-    
-}
