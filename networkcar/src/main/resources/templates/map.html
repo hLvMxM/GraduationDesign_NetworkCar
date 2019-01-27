@@ -47,7 +47,7 @@
     function getPosition(){
         $.ajax({
             type:"GET",
-            url:"http://10.54.135.233:8080/api/position",
+            url:"http://192.168.51.130:8080/api/position",
             dataType:"json",
             success:function(data){
             	console.log(data);
@@ -56,10 +56,9 @@
                 points = [];  // 添加海量点数据
                 for (var i = 0; i<positionlist.position.length; i++) {
                     strs = positionlist.position[i].split(":");
-                    points.push(new BMap.Point(
-                        parseFloat(strs[0]),
-                        parseFloat(strs[1])
-                    ));
+                    p = new BMap.Point(parseFloat(strs[0]),parseFloat(strs[1]));
+                    p.data = strs[2];
+                    points.push(p);
                 }
                 var options = {
                     size: BMAP_POINT_SIZE_BIG,
@@ -67,6 +66,10 @@
                     color: '#d340c3'
                 }
                 pointCollection = new BMap.PointCollection(points, options);
+                pointCollection.addEventListener('click', function (e) {
+                //alert('单击点的坐标为：' + e.point.lng + ',' + e.point.lat);  // 监听点击事件
+                alert(e.point.data);
+                });
                 map.addOverlay(pointCollection);
             }
         });

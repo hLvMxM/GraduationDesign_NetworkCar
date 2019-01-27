@@ -10,6 +10,6 @@ public class InfoController {
 	
 	@GetMapping("/api/position")
 	public String getPosition() { 
-		return InfoService.getPosition();	
+		return InfoService.getPositionString();	
 	}
 }
