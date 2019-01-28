@@ -57,11 +57,6 @@ public class UserMapperImpl implements UserMapper{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-//		if (user==null) {
-//			logger.info("null");
-//		}else {
-//		    logger.info("password: {}", password);
-//		}
 		return user;
 	}
 

@@ -38,6 +38,7 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and().logout().logoutUrl("/logout")
 		.permitAll()
 		.and().csrf().disable();
+		http.headers().frameOptions().disable();
 	}
 	
 	public BCryptPasswordEncoder passwordEncoder() {

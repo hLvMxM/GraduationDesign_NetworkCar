@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>地图</title>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=*****"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=lHx4zGMQYD0KbWKsXHtA1XQBtsn9gruX"></script>
 </head>
 <body style="height:100%;width:100%">
     <div id="allmap" style="height:100%;width:100%"></div>
@@ -14,6 +14,7 @@
 <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
 <script type="text/javascript">
 	// 百度地图API功能
+    var networkcarset = new Set();
 	var map = new BMap.Map("allmap",{minZoom:15});    // 创建Map实例           
 	map.centerAndZoom("成都",13);
 	//添加地图类型控件
@@ -50,27 +51,37 @@
             url:"http://192.168.51.130:8080/api/position",
             dataType:"json",
             success:function(data){
-            	console.log(data);
             	positionlist = data;
                 map.clearOverlays()
                 points = [];  // 添加海量点数据
+                obpoints = [];
                 for (var i = 0; i<positionlist.position.length; i++) {
                     strs = positionlist.position[i].split(":");
                     p = new BMap.Point(parseFloat(strs[0]),parseFloat(strs[1]));
                     p.data = strs[2];
-                    points.push(p);
+                    if(networkcarset.has(strs[2]))
+                        obpoints.push(p);
+                    else
+                        points.push(p);
                 }
                 var options = {
-                    size: BMAP_POINT_SIZE_BIG,
-                    shape: BMAP_POINT_SHAPE_STAR,
+                    size: BMAP_POINT_SIZE_SMALL,
+                    shape: BMAP_POINT_SHAPE_CIRCLE,
                     color: '#d340c3'
                 }
+                var oboptions = {
+                    size: BMAP_POINT_SIZE_BIG,
+                    shape: BMAP_POINT_SHAPE_STAR,
+                    color: '#ff0000'
+                }
                 pointCollection = new BMap.PointCollection(points, options);
+                pointCollection2 = new BMap.PointCollection(obpoints,oboptions);
                 pointCollection.addEventListener('click', function (e) {
                 //alert('单击点的坐标为：' + e.point.lng + ',' + e.point.lat);  // 监听点击事件
-                alert(e.point.data);
+                    alert(e.point.data);
                 });
                 map.addOverlay(pointCollection);
+                map.addOverlay(pointCollection2);
             }
         });
     }
