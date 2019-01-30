@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>主页</title>
+    <link th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css" rel="stylesheet" />
+    <link th:href="@{/css/index.css}" href="../static/css/index.css" rel="stylesheet" />
+    <link th:href="@{/css/font-awesome.css}" href="../static/css/font-awesome.css" rel="stylesheet" />
+    <link th:href="@{/css/sb-admin.css}" href="../static/css/sb-admin.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">SB Admin</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active"><a href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li><a href="charts.html"><i class="fa fa-bar-chart-o"></i> Charts</a></li>
+                    <li><a href="tables.html"><i class="fa fa-table"></i> Tables</a></li>
+                    <li><a href="forms.html"><i class="fa fa-edit"></i> Forms</a></li>
+                    <li><a href="typography.html"><i class="fa fa-font"></i> Typography</a></li>
+                    <li><a href="bootstrap-elements.html"><i class="fa fa-desktop"></i> Bootstrap Elements</a></li>
+                    <li><a href="bootstrap-grid.html"><i class="fa fa-wrench"></i> Bootstrap Grid</a></li>
+                    <li><a href="blank-page.html"><i class="fa fa-file"></i> Blank Page</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-square-o-down"></i>
+                            Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Dropdown Item</a></li>
+                            <li><a href="#">Another Item</a></li>
+                            <li><a href="#">Third Item</a></li>
+                            <li><a href="#">Last Item</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                    <li class="dropdown messages-dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i>
+                            Messages <span class="badge">7</span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">7 New Messages</li>
+                            <li class="message-preview">
+                                <a href="#">
+                                    <span class="avatar"><img src="http://placehold.it/50x50"></span>
+                                    <span class="name">John Smith:</span>
+                                    <span class="message">Hey there, I wanted to ask you something...</span>
+                                    <span class="time"><i class="fa fa-clock-o"></i> 4:34 PM</span>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="message-preview">
+                                <a href="#">
+                                    <span class="avatar"><img src="http://placehold.it/50x50"></span>
+                                    <span class="name">John Smith:</span>
+                                    <span class="message">Hey there, I wanted to ask you something...</span>
+                                    <span class="time"><i class="fa fa-clock-o"></i> 4:34 PM</span>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="message-preview">
+                                <a href="#">
+                                    <span class="avatar"><img src="http://placehold.it/50x50"></span>
+                                    <span class="name">John Smith:</span>
+                                    <span class="message">Hey there, I wanted to ask you something...</span>
+                                    <span class="time"><i class="fa fa-clock-o"></i> 4:34 PM</span>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="#">View Inbox <span class="badge">7</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown alerts-dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> Alerts
+                            <span class="badge">3</span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Default <span class="label label-default">Default</span></a></li>
+                            <li><a href="#">Primary <span class="label label-primary">Primary</span></a></li>
+                            <li><a href="#">Success <span class="label label-success">Success</span></a></li>
+                            <li><a href="#">Info <span class="label label-info">Info</span></a></li>
+                            <li><a href="#">Warning <span class="label label-warning">Warning</span></a></li>
+                            <li><a href="#">Danger <span class="label label-danger">Danger</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">View All</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John
+                            Smith <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
+                            <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+        <div id="page-wrapper">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Dashboard <small>Statistics Overview</small></h1>
+                    <ol class="breadcrumb">
+                        <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
+                    </ol>
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        Welcome to SB Admin by <a class="alert-link" href="http://startbootstrap.com">Start Bootstrap</a>!
+                        Feel free to use this template for your admin needs! We are using a few different plugins to
+                        handle the dynamic tables and charts, so make sure you check out the necessary documentation
+                        links provided.
+                    </div>
+                </div>
+            </div><!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-comments fa-5x"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <p class="announcement-heading">456</p>
+                                    <p class="announcement-text">New Mentions!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer announcement-bottom">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        View Mentions
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-check fa-5x"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <p class="announcement-heading">12</p>
+                                    <p class="announcement-text">To-Do Items</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer announcement-bottom">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        Complete Tasks
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <p class="announcement-heading">18</p>
+                                    <p class="announcement-text">Crawl Errors</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer announcement-bottom">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        Fix Issues
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <i class="fa fa-comments fa-5x"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <p class="announcement-heading">56</p>
+                                    <p class="announcement-text">New Orders!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer announcement-bottom">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        Complete Orders
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Traffic Statistics: October 1,
+                                2013 - October 31, 2013</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-chart-area" style="position: relative;"><svg height="342" version="1.1"
+                                    width="1212" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;">
+                                    <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël
+                                        2.1.0</desc>
+                                    <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><text x="43.6875"
+                                        y="306" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan>
+                                    </text>
+                                    <path fill="none" stroke="#aaaaaa" d="M56.1875,306H1187" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text
+                                        x="43.6875" y="235.75" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none"
+                                        fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">500</tspan>
+                                    </text>
+                                    <path fill="none" stroke="#aaaaaa" d="M56.1875,235.75H1187" stroke-width="0.5"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="43.6875"
+                                        y="165.5" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">1,000</tspan>
+                                    </text>
+                                    <path fill="none" stroke="#aaaaaa" d="M56.1875,165.5H1187" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text
+                                        x="43.6875" y="95.24999999999997" text-anchor="end" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal">
+                                        <tspan dy="4.406249999999972" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">1,500</tspan>
+                                    </text>
+                                    <path fill="none" stroke="#aaaaaa" d="M56.1875,95.24999999999997H1187" stroke-width="0.5"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="43.6875"
+                                        y="25" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2,000</tspan>
+                                    </text>
+                                    <path fill="none" stroke="#aaaaaa" d="M56.1875,25H1187" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text
+                                        x="1149.30625" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-30</tspan>
+                                    </text><text x="1036.225" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-27</tspan>
+                                    </text><text x="923.1437500000001" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-24</tspan>
+                                    </text><text x="810.0625" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-21</tspan>
+                                    </text><text x="696.98125" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-18</tspan>
+                                    </text><text x="583.9" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-15</tspan>
+                                    </text><text x="470.81875" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-12</tspan>
+                                    </text><text x="357.7375" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-09</tspan>
+                                    </text><text x="244.65625" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-06</tspan>
+                                    </text><text x="131.575" y="318.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;"
+                                        font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8)">
+                                        <tspan dy="4.40625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012-10-03</tspan>
+                                    </text>
+                                    <path fill="#2577b5" stroke="#000000" d="M56.1875,193.319L93.88125,195.9885L131.575,190.79L169.26875,188.1205L206.9625,194.724L244.65625,185.3105L282.35,195.005L320.04375,69.95999999999998L357.7375,82.32399999999998L395.43125000000003,106.48999999999998L433.125,182.079L470.81875,181.0955L508.51250000000005,190.9305L546.20625,186.7155L583.9,183.765L621.59375,156.64849999999998L659.2875,138.52399999999997L696.98125,134.028L734.6750000000001,119.2755L772.3687500000001,119.2755L810.0625,131.92049999999998L847.75625,138.80499999999998L885.45,121.66399999999999L923.1437500000001,124.33349999999999L960.8375000000001,125.73849999999999L998.53125,130.65599999999998L1036.225,120.11849999999998L1073.91875,110.70499999999998L1111.6125,106.48999999999998L1149.30625,91.17549999999997L1187,40.17399999999998L1187,306L56.1875,306Z"
+                                        fill-opacity="1" stroke-width="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></path>
+                                    <path fill="none" stroke="#0b62a4" d="M56.1875,193.319L93.88125,195.9885L131.575,190.79L169.26875,188.1205L206.9625,194.724L244.65625,185.3105L282.35,195.005L320.04375,69.95999999999998L357.7375,82.32399999999998L395.43125000000003,106.48999999999998L433.125,182.079L470.81875,181.0955L508.51250000000005,190.9305L546.20625,186.7155L583.9,183.765L621.59375,156.64849999999998L659.2875,138.52399999999997L696.98125,134.028L734.6750000000001,119.2755L772.3687500000001,119.2755L810.0625,131.92049999999998L847.75625,138.80499999999998L885.45,121.66399999999999L923.1437500000001,124.33349999999999L960.8375000000001,125.73849999999999L998.53125,130.65599999999998L1036.225,120.11849999999998L1073.91875,110.70499999999998L1111.6125,106.48999999999998L1149.30625,91.17549999999997L1187,40.17399999999998"
+                                        stroke-width="3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                    <circle cx="56.1875" cy="193.319" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="93.88125" cy="195.9885" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="131.575" cy="190.79" r="4" fill="#0b62a4" stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="169.26875" cy="188.1205" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="206.9625" cy="194.724" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="244.65625" cy="185.3105" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="282.35" cy="195.005" r="4" fill="#0b62a4" stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="320.04375" cy="69.95999999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="357.7375" cy="82.32399999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="395.43125000000003" cy="106.48999999999998" r="7" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="433.125" cy="182.079" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="470.81875" cy="181.0955" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="508.51250000000005" cy="190.9305" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="546.20625" cy="186.7155" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="583.9" cy="183.765" r="4" fill="#0b62a4" stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="621.59375" cy="156.64849999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="659.2875" cy="138.52399999999997" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="696.98125" cy="134.028" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="734.6750000000001" cy="119.2755" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="772.3687500000001" cy="119.2755" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="810.0625" cy="131.92049999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="847.75625" cy="138.80499999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="885.45" cy="121.66399999999999" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="923.1437500000001" cy="124.33349999999999" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="960.8375000000001" cy="125.73849999999999" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="998.53125" cy="130.65599999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="1036.225" cy="120.11849999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="1073.91875" cy="110.70499999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="1111.6125" cy="106.48999999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="1149.30625" cy="91.17549999999997" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                    <circle cx="1187" cy="40.17399999999998" r="4" fill="#0b62a4" stroke="#ffffff"
+                                        stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                </svg>
+                                <div class="morris-hover morris-default-style" style="left: 352.431px; top: 39px;">
+                                    <div class="morris-hover-row-label">2012-10-10</div>
+                                    <div class="morris-hover-point" style="color: #0b62a4">
+                                        Visits:
+                                        1,420
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Traffic Sources: October 1,
+                                2013 - October 31, 2013</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-chart-donut"><svg height="342" version="1.1" width="362" xmlns="http://www.w3.org/2000/svg"
+                                    style="overflow: hidden; position: relative; top: -0.8px;">
+                                    <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël
+                                        2.1.0</desc>
+                                    <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs>
+                                    <path fill="none" stroke="#0b62a4" d="M181,282.5A109,109,0,0,0,232.42164205376383,77.39165109890511"
+                                        stroke-width="2" opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 1;"></path>
+                                    <path fill="#0b62a4" stroke="#ffffff" d="M181,285.5A112,112,0,0,0,233.8369166057023,74.74646718419608L258.1324630806457,29.337476648357665A163.5,163.5,0,0,1,181,337Z"
+                                        stroke-width="3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                    <path fill="none" stroke="#3980b5" d="M232.42164205376383,77.39165109890511A109,109,0,0,0,174.37288184624774,64.70164842711904"
+                                        stroke-width="2" opacity="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0;"></path>
+                                    <path fill="#3980b5" stroke="#ffffff" d="M233.8369166057023,74.74646718419608A112,112,0,0,0,174.19048409889677,61.70719838382874L171.3633190149566,15.293222712829078A158.5,158.5,0,0,1,255.77367216074833,33.74611650620605Z"
+                                        stroke-width="3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                    <path fill="none" stroke="#679dc6" d="M174.37288184624774,64.70164842711904A109,109,0,0,0,96.47580393830803,104.67660078051465"
+                                        stroke-width="2" opacity="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0;"></path>
+                                    <path fill="#679dc6" stroke="#ffffff" d="M174.19048409889677,61.70719838382874A112,112,0,0,0,94.14944991826147,102.78237878364807L58.090962607539666,73.42193783221624A158.5,158.5,0,0,1,171.3633190149566,15.293222712829078Z"
+                                        stroke-width="3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                    <path fill="none" stroke="#95bbd7" d="M96.47580393830803,104.67660078051465A109,109,0,0,0,180.96575664063926,282.49999462106564"
+                                        stroke-width="2" opacity="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0;"></path>
+                                    <path fill="#95bbd7" stroke="#ffffff" d="M94.14944991826147,102.78237878364807A112,112,0,0,0,180.9648141628587,285.4999944730216L180.95020575725985,331.9999921783386A158.5,158.5,0,0,1,58.090962607539666,73.42193783221624Z"
+                                        stroke-width="3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text
+                                        x="181" y="163.5" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none"
+                                        fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 800 15px Arial;"
+                                        font-size="15px" font-weight="800" transform="matrix(2.5239,0,0,2.5239,-275.8101,-265.6072)"
+                                        stroke-width="0.3962155963302752">
+                                        <tspan dy="6.015625" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Referral</tspan>
+                                    </text><text x="181" y="183.5" text-anchor="middle" font="10px &quot;Arial&quot;"
+                                        stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 14px Arial;"
+                                        font-size="14px" transform="matrix(2.2708,0,0,2.2708,-229.723,-223.0313)"
+                                        stroke-width="0.4403669724770642">
+                                        <tspan dy="4.8125" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">42.7%</tspan>
+                                    </text>
+                                </svg></div>
+                            <div class="text-right">
+                                <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-clock-o"></i> Recent Activity</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">just now</span>
+                                    <i class="fa fa-calendar"></i> Calendar updated
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">4 minutes ago</span>
+                                    <i class="fa fa-comment"></i> Commented on a post
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">23 minutes ago</span>
+                                    <i class="fa fa-truck"></i> Order 392 shipped
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">46 minutes ago</span>
+                                    <i class="fa fa-money"></i> Invoice 653 has been paid
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">1 hour ago</span>
+                                    <i class="fa fa-user"></i> A new user has been added
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">2 hours ago</span>
+                                    <i class="fa fa-check"></i> Completed task: "pick up dry cleaning"
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">yesterday</span>
+                                    <i class="fa fa-globe"></i> Saved the world
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="badge">two days ago</span>
+                                    <i class="fa fa-check"></i> Completed task: "fix error on sales page"
+                                </a>
+                            </div>
+                            <div class="text-right">
+                                <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-money"></i> Recent Transactions</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped tablesorter">
+                                    <thead>
+                                        <tr>
+                                            <th class="header">Order # <i class="fa fa-sort"></i></th>
+                                            <th class="header">Order Date <i class="fa fa-sort"></i></th>
+                                            <th class="header">Order Time <i class="fa fa-sort"></i></th>
+                                            <th class="header">Amount (USD) <i class="fa fa-sort"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>3326</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:29 PM</td>
+                                            <td>$321.33</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3325</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:20 PM</td>
+                                            <td>$234.34</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3324</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:03 PM</td>
+                                            <td>$724.17</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3323</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:00 PM</td>
+                                            <td>$23.71</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3322</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:49 PM</td>
+                                            <td>$8345.23</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3321</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:23 PM</td>
+                                            <td>$245.12</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3320</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:15 PM</td>
+                                            <td>$5663.54</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3319</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:13 PM</td>
+                                            <td>$943.45</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-right">
+                                <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+
+        </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+</body>
+
+</html>
