@@ -12,13 +12,12 @@ import xyz.dingjiacheng.networkcar.util.DBUtil;
 
 public class UserMapperImpl implements UserMapper{
 
-	
-	
 	@Override
 	public User selectById(String id) {
 		User user = null;
+		Connection conn = null;
 		try {
-		Connection conn = DBUtil.getConnection();
+		conn = DBUtil.getConnection();
 		String sql = "select * from user where id = ?";
 		PreparedStatement pst = conn.prepareStatement(sql);
 		pst.setString(1, id);
@@ -32,6 +31,13 @@ public class UserMapperImpl implements UserMapper{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		String password = (new BCryptPasswordEncoder().encode("123456".trim()));
 		return new User("123123",password,"admin");
@@ -41,8 +47,9 @@ public class UserMapperImpl implements UserMapper{
 	public User selectByUsername(String username) {
 		User user = null;
 		String password = "";
+		Connection conn = null;
 		try {
-			Connection conn = DBUtil.getConnection();
+			conn = DBUtil.getConnection();
 			String sql = "select * from user where username = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, username);
@@ -56,6 +63,13 @@ public class UserMapperImpl implements UserMapper{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return user;
 	}

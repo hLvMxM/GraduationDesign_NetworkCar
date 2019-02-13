@@ -13,7 +13,5 @@ public class NetworkcarApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NetworkcarApplication.class, args);
 	}
-	
-	
 }
 
