@@ -31,8 +31,7 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/index").permitAll()
-			.antMatchers("/hello").authenticated()
+			.antMatchers("/").authenticated()
 			.and()
 		.formLogin().loginPage("/login")
 		.and().logout().logoutUrl("/logout")
