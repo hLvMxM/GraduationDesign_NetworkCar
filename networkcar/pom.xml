@@ -61,6 +61,19 @@
 		      <artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
 		      <version>2.3.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-client -->
+		<dependency>
+		    <groupId>org.apache.hbase</groupId>
+		    <artifactId>hbase-client</artifactId>
+		    <version>1.4.9</version>
+		</dependency>
+		<dependency>
+            <groupId>jdk.tools</groupId>
+            <artifactId>jdk.tools</artifactId>
+            <version>1.8</version>
+            <scope>system</scope>
+            <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+    	</dependency>
 	</dependencies>
 
 	<build>

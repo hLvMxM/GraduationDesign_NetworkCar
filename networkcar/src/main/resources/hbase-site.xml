@@ -1,0 +1,6 @@
+<configuration>
+        <property>
+                <name>hbase.rootdir</name>
+                <value>file:/opt/hbase-1.4.9/tmp</value>
+        </property>
+</configuration>
