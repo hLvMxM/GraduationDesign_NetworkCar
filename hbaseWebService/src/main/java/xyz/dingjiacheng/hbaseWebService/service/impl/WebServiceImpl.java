@@ -8,6 +8,7 @@ import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.util.Bytes;
 
 import xyz.dingjiacheng.hbaseWebService.service.WebService;
 import xyz.dingjiacheng.hbaseWebService.util.HbaseUtil;
@@ -33,10 +34,31 @@ public class WebServiceImpl implements WebService {
 		Scan scan = new Scan();
 		scan.withStartRow(driverId.getBytes());
 		scan.withStopRow(findEnd(driverId).getBytes());
+		scan.addColumn("orderID".getBytes(), null);
 		try {
 			ResultScanner scanner = orderHTable.getScanner(scan);
 			for (Result result : scanner) {
-				sb.append(result+"\n");
+				String string = Bytes.toString(result.getValue("orderID".getBytes(), null));
+				sb.append(string +"\n");
+			}
+		} catch (IOException e) {
+			return "error";
+		}
+		return sb.toString();
+	}
+	
+	@Override
+	public String scanPositionByOrder(String orderId) {
+		StringBuilder sb = new StringBuilder("");
+		HTable positionTable = HbaseUtil.getPositionHTable();
+		Scan scan = new Scan();
+		scan.withStartRow(orderId.getBytes());
+		scan.withStopRow(findEnd(orderId).getBytes());
+		try {
+			ResultScanner scanner = positionTable.getScanner(scan);
+			for (Result result : scanner) {
+				//String string = Bytes.toString(result.getValue("orderID".getBytes(), null));
+				sb.append(result +"\n");
 			}
 		} catch (IOException e) {
 			return "error";
@@ -50,4 +72,6 @@ public class WebServiceImpl implements WebService {
 		charAt += 1;
 		return end+charAt;
 	}
+
+	
 }

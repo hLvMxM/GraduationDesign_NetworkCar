@@ -11,4 +11,7 @@ public interface WebService {
 	
 	@WebMethod
 	String scanOrderByDriver(String driverId);
+	
+	@WebMethod
+	String scanPositionByOrder(String orderId);
 }	
