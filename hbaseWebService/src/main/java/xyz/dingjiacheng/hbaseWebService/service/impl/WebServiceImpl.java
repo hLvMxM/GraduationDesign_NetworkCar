@@ -21,11 +21,6 @@ public class WebServiceImpl implements WebService {
 		System.out.println("hello");
 		return "hello:" + hello;
 	}
-
-	public static void main(String[] args) {
-		WebServiceImpl ws = new WebServiceImpl();
-		ws.scanOrderByDriver("123");
-	}
 	
 	@Override
 	public String scanOrderByDriver(String driverId) {
@@ -35,11 +30,15 @@ public class WebServiceImpl implements WebService {
 		scan.withStartRow(driverId.getBytes());
 		scan.withStopRow(findEnd(driverId).getBytes());
 		scan.addColumn("orderID".getBytes(), null);
+		scan.addColumn("time".getBytes(), null);
+		scan.addColumn("state".getBytes(), "state".getBytes());
 		try {
 			ResultScanner scanner = orderHTable.getScanner(scan);
 			for (Result result : scanner) {
 				String string = Bytes.toString(result.getValue("orderID".getBytes(), null));
-				sb.append(string +"\n");
+				String time = Bytes.toString(result.getValue("time".getBytes(), null));
+				String state = Bytes.toString(result.getValue("state".getBytes(), "state".getBytes()));
+				sb.append(string  + ":" + time + ":" + state +"\n");
 			}
 		} catch (IOException e) {
 			return "error";
@@ -54,11 +53,16 @@ public class WebServiceImpl implements WebService {
 		Scan scan = new Scan();
 		scan.withStartRow(orderId.getBytes());
 		scan.withStopRow(findEnd(orderId).getBytes());
+		scan.addColumn("position".getBytes(), "lat".getBytes());
+		scan.addColumn("position".getBytes(), "lon".getBytes());
+		scan.addColumn("time".getBytes(), null);
 		try {
 			ResultScanner scanner = positionTable.getScanner(scan);
 			for (Result result : scanner) {
-				//String string = Bytes.toString(result.getValue("orderID".getBytes(), null));
-				sb.append(result +"\n");
+				String lat = Bytes.toString(result.getValue("position".getBytes(), "lat".getBytes()));
+				String lon = Bytes.toString(result.getValue("position".getBytes(), "lon".getBytes()));
+				String time = Bytes.toString(result.getValue("time".getBytes(), null));
+				sb.append(lat  + ":" + lon + ":" + time +"\n");
 			}
 		} catch (IOException e) {
 			return "error";
@@ -73,5 +77,4 @@ public class WebServiceImpl implements WebService {
 		return end+charAt;
 	}
 
-	
 }

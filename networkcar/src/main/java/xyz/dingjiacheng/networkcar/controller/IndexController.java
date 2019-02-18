@@ -32,4 +32,9 @@ public class IndexController {
 		return "map";
 	}
 	
+	@GetMapping("/orderhis")
+	public String orderhis() {
+		return "orderhis";
+	}
+	
 }

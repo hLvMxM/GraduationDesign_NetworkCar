@@ -11,12 +11,18 @@ public class ScanService {
 	public static String getOrder(String driverID) {
 		WebServiceImplService service = new WebServiceImplService();
 		WebServiceImpl port = service.getWebServiceImplPort();
-		String orderId = port.scanPositionByOrder(driverID);
-		System.out.println("null"+orderId);
+		String orderId = port.scanOrderByDriver(driverID);
 		return orderId;
 	}
 	
+	public static String getPosition(String orderID) {
+		WebServiceImplService service = new WebServiceImplService();
+		WebServiceImpl port = service.getWebServiceImplPort();
+		String positionInfo = port.scanPositionByOrder(orderID);
+		return positionInfo;
+	}
+	
 	public static void main(String[] args) {
-		System.out.println(getOrder("46f5f1328a997fd338ab8d8625833efb"));
+		System.out.println(getPosition("00020b4f80861361d5a20a5296d14691"));
 	}
 }

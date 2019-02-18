@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>历史轨迹查询</title>
+    <link th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css" rel="stylesheet" />
+    <link th:href="@{/css/index.css}" href="../static/css/index.css" rel="stylesheet" />
+    <link th:href="@{/css/font-awesome.css}" href="../static/css/font-awesome.css" rel="stylesheet" />
+    <link th:href="@{/css/sb-admin.css}" href="../static/css/sb-admin.css" rel="stylesheet" />
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=lHx4zGMQYD0KbWKsXHtA1XQBtsn9gruX"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">网约车分析管理系统</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <div th:replace="../templates/common::navbar"></div>
+
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                    <li class="dropdown user-dropdown" style="margin-right:20px">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>&nbsp;管理员
+                            <b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="background-color:#222222">
+                            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
+                            <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a th:href="@{/logout}"><i class="fa fa-power-off"></i>&nbsp;登出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+        <div id="page-wrapper">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="allmap" class="map" style="width: 100%;height: 800px">
+                    </div>
+                </div>
+                <script type="text/javascript">
+                var map = new BMap.Map("allmap",{minZoom:1});    // 创建Map实例           
+                map.centerAndZoom("成都",13);
+                //添加地图类型控件
+                map.addControl(new BMap.MapTypeControl({
+                    mapTypes:[
+                        BMAP_NORMAL_MAP
+                        //,BMAP_HYBRID_MAP
+                    ]}));	   
+                map.addControl(new BMap.NavigationControl()); 
+                </script>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-money"></i>实时监控车辆</h3>
+                                <div class="panel-title" style="display:inline">
+                                    <input type="text" class="form-control" id="driverid" placeholder="请输入司机ID">
+                                    <button type="submit" class="btn btn-default" onclick="search()">查询</button>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="ordertable" class="table table-bordered table-hover table-striped tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th class="header">订单ID<i class="fa fa-sort"></i></th>
+                                                <th class="header">开始时间<i class="fa fa-sort"></i></th>
+                                                <th class="header">订单状态<i class="fa fa-sort"></i></th>
+                                                <th class="header">操作<i class="fa fa-sort"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>3326</td>
+                                                <td>10/21/2013</td>
+                                                <td>3:29 PM</td>
+                                                <td>$321.33</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3325</td>
+                                                <td>10/21/2013</td>
+                                                <td>3:20 PM</td>
+                                                <td>$234.34</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.row -->
+
+        </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+    <script>
+        function search(){
+            driverid = $("#driverid")[0].value;
+            $.ajax({
+                type:"GET",
+                url:"http://192.168.201.1:8080/api/orderInfo?id="+driverid,
+                dataType:"json",
+                success:function(data){
+                    $("#ordertable tr:not(:first)").empty("");
+                    for(tmp in data['order']){
+                        info = data['order'][tmp];
+                        var trHTML = "<tr><td>"+info[0]+"</td><td>"+info[1]+"</td><td>"+info[2]+"</td></tr>";
+                        $("#ordertable tr:eq(0)").after(trHTML);
+                    }
+                },
+                error:function(jqXHR){
+                    console.log("Error: "+jqXHR.status);
+                }
+            });
+        }
+        function findposition(orderid){
+            $.ajax({
+                type:"GET",
+                url:"http://192.168.201.1:8080/api/positionInfo?id="+orderid,
+                dataType:"json",
+                success:function(data){
+                    console.log(1);
+                    var pois = [];
+                    for(tmp in data['position']){
+                        info = data['position'][tmp];
+                        pois.push(new BMap.Point(info[0],info[1]));
+                    }
+                    var polyline =new BMap.Polyline(pois, {
+                    enableEditing: false,//是否启用线编辑，默认为false
+                    enableClicking: true,//是否响应点击事件，默认为true
+                    strokeWeight:'8',//折线的宽度，以像素为单位
+                    strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
+                    strokeColor:"#18a45b" //折线颜色
+                    });
+
+                    map.addOverlay(polyline);          //增加折线
+                },
+                error:function(jqXHR){
+                    console.log("Error: "+jqXHR.status);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
