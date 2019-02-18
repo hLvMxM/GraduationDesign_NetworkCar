@@ -1,12 +1,14 @@
 
 package xyz.dingjiacheng.hbasewebservice.service.impl;
 
+import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.Action;
+import javax.xml.ws.FaultAction;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
@@ -32,10 +34,10 @@ public interface WebServiceImpl {
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "scanOrderByDriver", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.ScanOrderByDriver")
-    @ResponseWrapper(localName = "scanOrderByDriverResponse", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.ScanOrderByDriverResponse")
-    @Action(input = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/scanOrderByDriverRequest", output = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/scanOrderByDriverResponse")
-    public String scanOrderByDriver(
+    @RequestWrapper(localName = "sayHello", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.SayHello")
+    @ResponseWrapper(localName = "sayHelloResponse", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.SayHelloResponse")
+    @Action(input = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/sayHelloRequest", output = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/sayHelloResponse")
+    public String sayHello(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0);
 
@@ -47,10 +49,10 @@ public interface WebServiceImpl {
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "sayHello", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.SayHello")
-    @ResponseWrapper(localName = "sayHelloResponse", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.SayHelloResponse")
-    @Action(input = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/sayHelloRequest", output = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/sayHelloResponse")
-    public String sayHello(
+    @RequestWrapper(localName = "scanOrderByDriver", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.ScanOrderByDriver")
+    @ResponseWrapper(localName = "scanOrderByDriverResponse", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.ScanOrderByDriverResponse")
+    @Action(input = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/scanOrderByDriverRequest", output = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/scanOrderByDriverResponse")
+    public String scanOrderByDriver(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0);
 
@@ -68,5 +70,37 @@ public interface WebServiceImpl {
     public String scanPositionByOrder(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "updateData", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.UpdateData")
+    @ResponseWrapper(localName = "updateDataResponse", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.UpdateDataResponse")
+    @Action(input = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/updateDataRequest", output = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/updateDataResponse")
+    public String updateData(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0);
+
+    /**
+     * 
+     * @param arg0
+     * @throws Exception_Exception
+     */
+    @WebMethod
+    @RequestWrapper(localName = "writeDataToPosition", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.WriteDataToPosition")
+    @ResponseWrapper(localName = "writeDataToPositionResponse", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", className = "xyz.dingjiacheng.hbasewebservice.service.impl.WriteDataToPositionResponse")
+    @Action(input = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/writeDataToPositionRequest", output = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/writeDataToPositionResponse", fault = {
+        @FaultAction(className = Exception_Exception.class, value = "http://impl.service.hbaseWebService.dingjiacheng.xyz/WebServiceImpl/writeDataToPosition/Fault/Exception")
+    })
+    public void writeDataToPosition(
+        @WebParam(name = "arg0", targetNamespace = "")
+        List<String> arg0)
+        throws Exception_Exception
+    ;
 
 }

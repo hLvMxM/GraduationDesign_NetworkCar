@@ -54,9 +54,7 @@ public class PutData {
 		fr.close();
 	}
 	
-	public static byte[] tb(String string) {
-		return Bytes.toBytes(string);
-	}
+
 	
 	public static void writeDataToPosition(String[] split) throws Exception {
 		String driverID = split[0];
@@ -112,5 +110,8 @@ public class PutData {
 		p.add(tb("state"),tb("endlat"),tb(positionlat));
 		p.add(tb("state"),tb("endlon"),tb(positionlon));
 		orderHTable.put(p);
+	}
+	public static byte[] tb(String string) {
+		return Bytes.toBytes(string);
 	}
 }

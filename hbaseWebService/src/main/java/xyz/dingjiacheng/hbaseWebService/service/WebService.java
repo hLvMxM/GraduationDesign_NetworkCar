@@ -14,4 +14,7 @@ public interface WebService {
 	
 	@WebMethod
 	String scanPositionByOrder(String orderId);
+	
+	@WebMethod
+	String updateData(String data);
 }	
