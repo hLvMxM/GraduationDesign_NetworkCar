@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>主页</title>
+    <link th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css" rel="stylesheet" />
+    <link th:href="@{/css/index.css}" href="../static/css/index.css" rel="stylesheet" />
+    <link th:href="@{/css/font-awesome.css}" href="../static/css/font-awesome.css" rel="stylesheet" />
+    <link th:href="@{/css/sb-admin.css}" href="../static/css/sb-admin.css" rel="stylesheet" />
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=lHx4zGMQYD0KbWKsXHtA1XQBtsn9gruX"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">网约车分析管理系统</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <div th:replace="../templates/common::navbar"></div>
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                    <li class="dropdown user-dropdown" style="margin-right:20px">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>&nbsp;管理员
+                            <b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="background-color:#222222">
+                            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
+                            <li><a href="setting"><i class="fa fa-gear"></i> 设置</a></li>
+                            <li class="divider"></li>
+                            <li><a th:href="@{/logout}"><i class="fa fa-power-off"></i>&nbsp;登出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+	                <div class="panel panel-primary">
+	                     <div class="panel-heading">
+	                         <h3 class="panel-title"><i class="fa fa-money"></i>实时监控车辆</h3>
+	                     </div>
+	                     <div class="panel-body">
+	                         <div class="table-responsive">
+	                             <table class="table table-bordered table-hover table-striped tablesorter" >
+	                                 <thead>
+	                                     <tr>
+	                                         <th class="header">用户ID<i class="fa "></i></th>
+	                                         <th class="header">用户密码<i class="fa "></i></th>
+	                                         <th class="header">权限<i class="fa "></i></th>
+	                                         <th class="header">操作<i class="fa "></i></th>
+	                                     </tr>
+	                                 </thead>
+	                                 <tbody>
+	                                     <tr th:each="user : ${userlist}">
+	                                         <td th:text="${user.username}"></td>
+	                                         <td><input type="password" th:value="${user.password}" disabled/></td>
+	                                         <td th:text="${user.role}"></td>
+	                                         <td>
+                                                <div>
+                                                     <a onclick="xiugai(this)">修改</a>/<a onclick="deleteuser(this)">删除</a>
+                                                </div>
+                                                <div style="display:none">
+                                                    <a onclick="queren(this)">确认</a>/<a onclick="quxiao(this)">取消</a>
+                                                </div>
+                                            </td>
+	                                     </tr>
+	                                 </tbody>
+	                                 <div class="pull-right"><a onclick="adduserView()">新增用户</a></div>
+	                             </table>
+	                         </div>
+	                     </div>
+	                 </div>
+                </div><!-- /.row -->
+            </div><!-- /.row -->
+        </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+    <script>$("#navul").children()[6].className="active";</script>
+    <script>
+        function xiugai(value){
+        	$(value).parent().hide();
+        	$(value).parent().next().show();
+        	$(value).parent().parent().prevAll()[1].children[0].disabled = false;
+        	$(value).parent().parent().prevAll()[1].children[0].valuepassword = $(value).parent().parent().prevAll()[1].children[0].value;
+        	$(value).parent().parent().prevAll()[1].children[0].value = "";
+        }
+        function deleteuser(value){
+        	email = $(value).parent().parent().prevAll()[2].innerText;
+        	var mymessage=confirm("确认要删除"+email+"吗？");
+        	if(mymessage==true)
+        	{
+        		$.ajax({
+                    type:"GET",
+                    url:"http://192.168.201.1:8080/api/deleteuser?email="+email,
+                    success:function(data){
+                    	alert("已删除");
+                    	$(value).parent().parent().parent().empty();
+                    },
+                    error:function(jqXHR){
+                    	alert("删除失败，请重试");
+                    }
+                });
+        	}
+        };
+        function queren(value){
+        	
+        	email = $(value).parent().parent().prevAll()[2].innerText;
+        	password = $(value).parent().parent().prevAll()[1].children[0].value;
+        	$.ajax({
+                type:"GET",
+                url:"http://192.168.201.1:8080/api/changepassword?email="+email+"&password="+password,
+                success:function(data){
+                	alert("修改成功");
+                	$(value).parent().hide();
+            		$(value).parent().prev().show();
+                	$(value).parent().parent().prevAll()[1].children[0].value = data;
+                	$(value).parent().parent().prevAll()[1].children[0].disabled = true;
+                },
+                error:function(jqXHR){
+                	alert("修改失败，请重试");
+                	$(value).parent().parent().prevAll()[1].children[0].value = $(value).parent().parent().prevAll()[1].children[0].valuepassword;
+                	$(value).parent().parent().prevAll()[1].children[0].disabled = true;
+                }
+            });
+        };
+        function quxiao(value){
+        	$(value).parent().hide();
+        	$(value).parent().prev().show();
+        	$(value).parent().parent().prevAll()[1].children[0].value = $(value).parent().parent().prevAll()[1].children[0].valuepassword;
+        	$(value).parent().parent().prevAll()[1].children[0].disabled = true;
+        };
+        function adduserView(){
+        	$("table").append("<tr><td><input type='email'></td><td><input type='password'></td><td>admin</td><td><a onclick=\"adduser(this)\">新增</a>/<a onclick=\"canceradduser(this)\">取消</a></td></tr>");
+        }
+        function adduser(value){
+        	console.log(value);
+        	if(($(value).parent().prevAll()[2]).children[0].checkValidity()){
+        		var password = ($(value).parent().prevAll()[1]).children[0].value;
+        		var email = ($(value).parent().prevAll()[2]).children[0].value;
+        		$.ajax({
+                    type:"GET",
+                    url:"http://192.168.201.1:8080/api/adduser?email="+email+"&password="+password+"&role=admin",
+                    success:function(data){
+                    	alert("新增成功");
+                    	tr=$(value).parent().parent()[0];
+                    	tr.children[0].innerHTML = "<td>"+email+"</td>";
+                    	tr.children[1].innerHTML = "<td><input type='password' value='"+data+"' disabled></td>";
+                    	tr.children[3].innerHTML = "<div><a onclick='xiugai(this)'>修改</a>/<a onclick='deleteuser(this)'>删除</a></div>";
+                    },
+                    error:function(jqXHR){
+                    	alert("新增失败，请重试");
+                    }
+                });
+        	}
+        	
+        }
+        function canceradduser(value){
+        	$(value).parent().parent().empty();
+        }
+    </script>
+</body>
+
+</html>

@@ -56,7 +56,7 @@ public class UserMapperImpl implements UserMapper{
 			ResultSet rs;
 			rs = pst.executeQuery();
 			if(rs.next()) {
-				password = (new BCryptPasswordEncoder().encode(rs.getString(3).trim()));
+				password = rs.getString(3);
 				user = new User(rs.getString(2),
 								password,
 								rs.getString(4));
@@ -73,5 +73,4 @@ public class UserMapperImpl implements UserMapper{
 		}
 		return user;
 	}
-
 }

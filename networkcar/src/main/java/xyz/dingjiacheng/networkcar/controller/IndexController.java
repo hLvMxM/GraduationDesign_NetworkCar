@@ -1,13 +1,19 @@
 package xyz.dingjiacheng.networkcar.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import xyz.dingjiacheng.networkcar.model.User;
+import xyz.dingjiacheng.networkcar.service.UserService;
 
 @Controller
 public class IndexController {
@@ -37,4 +43,10 @@ public class IndexController {
 		return "orderhis";
 	}
 	
+	@GetMapping("/setting")
+	public String setting(Model map) {
+		List<User> allUser = (new UserService()).loadAllUser();
+		map.addAttribute("userlist",allUser);
+		return "setting";
+	}
 }
