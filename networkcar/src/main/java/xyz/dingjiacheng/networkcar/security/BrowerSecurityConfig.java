@@ -33,7 +33,7 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/").authenticated()
 			.and()
-		.formLogin().loginPage("/login")
+		.formLogin().loginPage("/login").defaultSuccessUrl("/index")
 		.and().logout().logoutUrl("/logout")
 		.permitAll()
 		.and().csrf().disable();

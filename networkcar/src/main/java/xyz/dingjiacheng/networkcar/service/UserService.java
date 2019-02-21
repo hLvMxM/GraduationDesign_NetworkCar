@@ -37,6 +37,24 @@ public class UserService implements UserDetailsService {
 		return user;
 	}
 	
+	public boolean addUser(String username,String password,String role) {
+		Connection conn = null;
+		PreparedStatement pst = null;
+		try {
+			conn = DBUtil.getConnection();
+			String sql = "insert into user (username,password,role) value(?,?,?)";
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, username);
+			pst.setString(2, password);
+			pst.setString(3, role);
+			return pst.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public List<User> loadAllUser(){
 		List<User> list = new ArrayList<User>();
 		Connection conn = null;
