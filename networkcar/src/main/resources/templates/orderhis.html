@@ -69,16 +69,24 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-money"></i>实时监控车辆</h3>
-                                <div class="panel-title" style="display:inline">
-                                    <input type="text" class="form-control" id="driverid" placeholder="请输入司机ID">
-                                    <button type="submit" class="btn btn-default" onclick="search()">查询</button>
-                                </div>
                             </div>
                             <div class="panel-body">
+                            	<div class="panel-title" style="display:inline">
+                                    <div class="row">
+	                                    <div class="col-lg-9">
+	                                    	<input type="text" class="form-control" id="driverid" placeholder="请输入司机ID">
+	                                    </div>
+	                                    <div class="col-lg-3">
+	                                    	<button type="submit" class="btn btn-default" onclick="search()">查询</button>
+	                                    </div>
+                                    </div>
+                                </div>
+                                <br/>
                                 <div class="table-responsive">
                                     <table id="ordertable" class="table table-bordered table-hover table-striped tablesorter">
                                         <thead>
                                             <tr>
+                                                <th class="header">司机ID<i class="fa fa-sort"></i></th>
                                                 <th class="header">订单ID<i class="fa fa-sort"></i></th>
                                                 <th class="header">开始时间<i class="fa fa-sort"></i></th>
                                                 <th class="header">订单状态<i class="fa fa-sort"></i></th>
@@ -86,18 +94,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>3326</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:29 PM</td>
-                                                <td>$321.33</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3325</td>
-                                                <td>10/21/2013</td>
-                                                <td>3:20 PM</td>
-                                                <td>$234.34</td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -122,7 +118,7 @@
                     $("#ordertable tr:not(:first)").empty("");
                     for(tmp in data['order']){
                         info = data['order'][tmp];
-                        var trHTML = "<tr><td>"+info[0]+"</td><td>"+info[1]+"</td><td>"+info[2]+"</td></tr>";
+                        var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+info[2]+"</td><td>"+info[3]+"</td></tr>";
                         $("#ordertable tr:eq(0)").after(trHTML);
                     }
                 },

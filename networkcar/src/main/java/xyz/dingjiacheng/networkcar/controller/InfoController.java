@@ -33,7 +33,7 @@ public class InfoController {
 		StringBuilder stringBuilder = new StringBuilder("");
 		for (String string : split) {
 			String[] info = string.split(":");
-			stringBuilder.append("[\""+info[0]+"\",\""+info[1]+"\",\""+info[2]+"\"],");
+			stringBuilder.append("[\""+info[0]+"\",\""+info[1]+"\",\""+info[2]+"\",\""+info[3]+"\"],");
 		}
 		String json = stringBuilder.toString();
 		json = "{\"order\":["+json.substring(0,json.length()-1)+"]}";
@@ -52,7 +52,6 @@ public class InfoController {
 			String[] info = string.split(":");
 			MapCordinatesVo mcv = CoordinatesConvertUtil.bd_encrypt(Double.valueOf(info[0]), Double.valueOf(info[1]));
 			stringBuilder.append("[\""+mcv.getLat()+"\",\""+mcv.getLon()+"\",\""+info[2]+"\"],");
-			System.out.println(mcv.getLat()+"|"+mcv.getLon());
 		}
 		String json = stringBuilder.toString();
 		json = "{\"position\":["+json.substring(0,json.length()-1)+"]}";

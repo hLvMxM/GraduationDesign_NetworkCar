@@ -35,16 +35,18 @@ public class WebServiceImpl implements WebService {
 		Scan scan = new Scan();
 		scan.withStartRow(driverId.getBytes());
 		scan.withStopRow(findEnd(driverId).getBytes());
+		scan.addColumn("driverID".getBytes(), null);
 		scan.addColumn("orderID".getBytes(), null);
 		scan.addColumn("time".getBytes(), null);
 		scan.addColumn("state".getBytes(), "state".getBytes());
 		try {
 			ResultScanner scanner = orderHTable.getScanner(scan);
 			for (Result result : scanner) {
+				String driverID = Bytes.toString(result.getValue("driverID".getBytes(), null));
 				String string = Bytes.toString(result.getValue("orderID".getBytes(), null));
 				String time = Bytes.toString(result.getValue("time".getBytes(), null));
 				String state = Bytes.toString(result.getValue("state".getBytes(), "state".getBytes()));
-				sb.append(string  + ":" + time + ":" + state +"\n");
+				sb.append(driverID + ":" + string  + ":" + time + ":" + state +"\n");
 			}
 		} catch (IOException e) {
 			return "error";
