@@ -118,7 +118,7 @@
                     $("#ordertable tr:not(:first)").empty("");
                     for(tmp in data['order']){
                         info = data['order'][tmp];
-                        var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+info[2]+"</td><td>"+info[3]+"</td></tr>";
+                        var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+info[2]+"</td><td>"+info[3]+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
                         $("#ordertable tr:eq(0)").after(trHTML);
                     }
                 },
@@ -127,32 +127,40 @@
                 }
             });
         }
+        var polylines = {};
         function findposition(orderid){
-            $.ajax({
+            if(polylines[orderid]!=undefined)
+            	return;
+        	$.ajax({
                 type:"GET",
                 url:"http://192.168.201.1:8080/api/positionInfo?id="+orderid,
                 dataType:"json",
                 success:function(data){
-                    console.log(1);
                     var pois = [];
                     for(tmp in data['position']){
                         info = data['position'][tmp];
                         pois.push(new BMap.Point(info[0],info[1]));
                     }
-                    var polyline =new BMap.Polyline(pois, {
-                    enableEditing: false,//是否启用线编辑，默认为false
-                    enableClicking: true,//是否响应点击事件，默认为true
-                    strokeWeight:'8',//折线的宽度，以像素为单位
-                    strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
-                    strokeColor:"#18a45b" //折线颜色
+                    var polyline = new BMap.Polyline(pois, {
+	                    enableEditing: false,//是否启用线编辑，默认为false
+	                    enableClicking: true,//是否响应点击事件，默认为true
+	                    strokeWeight:'8',//折线的宽度，以像素为单位
+	                    strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
+	                    strokeColor:"#18a45b" //折线颜色
                     });
-
+                    polylines[orderid] = polyline;
                     map.addOverlay(polyline);          //增加折线
                 },
                 error:function(jqXHR){
                     console.log("Error: "+jqXHR.status);
                 }
             });
+        }
+        function removePosition(orderid){
+        	if(polylines[orderid]!=undefined){
+        		map.removeOverlay(polylines[orderid]);
+        		delete polylines[orderid];
+        	}
         }
     </script>
 </body>
