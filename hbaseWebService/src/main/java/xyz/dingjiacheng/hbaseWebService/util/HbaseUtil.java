@@ -15,8 +15,8 @@ public class HbaseUtil {
 	static {
 		conf = HBaseConfiguration.create();
 		conf.set("hbase.zookeeper.property.clientPort", "2181"); 
-        conf.set("hbase.zookeeper.quorum", "192.168.201.2"); 
-        conf.set("hbase.master", "192.168.201.2:600000");
+        conf.set("hbase.zookeeper.quorum", "192.168.43.154"); 
+        conf.set("hbase.master", "192.168.43.154:600000");
         try {
 			orderTable = new HTable(conf, "orderInfo");
 			positionTable = new HTable(conf, "positionInfo");

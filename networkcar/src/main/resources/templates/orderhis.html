@@ -112,13 +112,13 @@
             driverid = $("#driverid")[0].value;
             $.ajax({
                 type:"GET",
-                url:"http://192.168.201.1:8080/api/orderInfo?id="+driverid,
+                url:"http://192.168.43.23:8080/api/orderInfo?id="+driverid,
                 dataType:"json",
                 success:function(data){
                     $("#ordertable tr:not(:first)").empty("");
                     for(tmp in data['order']){
                         info = data['order'][tmp];
-                        var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+info[2]+"</td><td>"+info[3]+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
+                        var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+Conversiontime(parseInt(info[2])*1000)+"</td><td>"+info[3]+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
                         $("#ordertable tr:eq(0)").after(trHTML);
                     }
                 },
@@ -133,7 +133,7 @@
             	return;
         	$.ajax({
                 type:"GET",
-                url:"http://192.168.201.1:8080/api/positionInfo?id="+orderid,
+                url:"http://192.168.43.23:8080/api/positionInfo?id="+orderid,
                 dataType:"json",
                 success:function(data){
                     var pois = [];
@@ -162,6 +162,16 @@
         		delete polylines[orderid];
         	}
         }
+        function Conversiontime(timestamp) {
+        	var date = new Date(timestamp);
+            Y = date.getFullYear() + '-';
+            M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            D = (date.getDate()<10?'0'+(date.getDate()):date.getDate()) + ' ';
+            h = (date.getHours()<10?'0'+(date.getHours()):date.getHours()) + ':';
+            m = (date.getMinutes()<10?'0'+(date.getMinutes()):date.getMinutes())+':';
+            s = (date.getSeconds()<10?'0'+(date.getSeconds()):date.getSeconds());
+            return Y+M+D+h+m+s;
+        }
     </script>
 </body>
 

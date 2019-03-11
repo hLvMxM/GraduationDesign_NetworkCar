@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "WebServiceImplService", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", wsdlLocation = "http://192.168.201.2:8081/wsServeice?wsdl")
+@WebServiceClient(name = "WebServiceImplService", targetNamespace = "http://impl.service.hbaseWebService.dingjiacheng.xyz/", wsdlLocation = "http://192.168.43.154:8081/wsServeice?wsdl")
 public class WebServiceImplService
     extends Service
 {
@@ -30,7 +30,7 @@ public class WebServiceImplService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://192.168.201.2:8081/wsServeice?wsdl");
+            url = new URL("http://192.168.43.154:8081/wsServeice?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
