@@ -21,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">网约车分析管理系统</a>
+                <a class="navbar-brand" href="index">网约车分析管理系统</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -102,7 +102,7 @@
         	{
         		$.ajax({
                     type:"GET",
-                    url:"http://192.168.43.154:8080/api/deleteuser?email="+email,
+                    url:"http://"+hosturl+":8080/api/deleteuser?email="+email,
                     success:function(data){
                     	alert("已删除");
                     	$(value).parent().parent().parent().empty();
@@ -119,7 +119,7 @@
         	password = $(value).parent().parent().prevAll()[1].children[0].value;
         	$.ajax({
                 type:"GET",
-                url:"http://192.168.43.154:8080/api/changepassword?email="+email+"&password="+password,
+                url:"http://"+hosturl+":8080/api/changepassword?email="+email+"&password="+password,
                 success:function(data){
                 	alert("修改成功");
                 	$(value).parent().hide();
@@ -150,7 +150,7 @@
         		var email = ($(value).parent().prevAll()[2]).children[0].value;
         		$.ajax({
                     type:"GET",
-                    url:"http://192.168.43.154:8080/api/adduser?email="+email+"&password="+password+"&role=admin",
+                    url:"http://"+hosturl+":8080/api/adduser?email="+email+"&password="+password+"&role=admin",
                     success:function(data){
                     	alert("新增成功");
                     	tr=$(value).parent().parent()[0];

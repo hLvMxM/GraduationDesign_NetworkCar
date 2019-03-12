@@ -4,6 +4,8 @@ GraduationDesign_NetworkCar
 
 毕业设计网约车管理系统
 
-kafkaConsumer.jar 用于消费kafka，并将数据送入hbase
+hbaseWebService工程用于hbase系统的操作，包括查与增
 
-readHbase.jar web接口处理hbase
+writeReadDataToKafka从kafka消费数据，进行数据显示
+
+networkcar是网页

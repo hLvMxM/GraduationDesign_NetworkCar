@@ -14,13 +14,17 @@ import xyz.dingjiacheng.networkcar.service.ScanService;
 import xyz.dingjiacheng.networkcar.util.CoordinatesConvertUtil;
 import xyz.dingjiacheng.networkcar.util.DBUtil;
 import xyz.dingjiacheng.networkcar.util.MapCordinatesVo;
+import xyz.dingjiacheng.writeandreaddatatokafka.service.impl.WebServiceImpl;
+import xyz.dingjiacheng.writeandreaddatatokafka.service.impl.WebServiceImplService;
 
 @RestController
 public class InfoController {
 	
 	@GetMapping("/api/position")
 	public String getPosition() { 
-		return InfoService.getPositionString();	
+		WebServiceImplService webServiceImplService = new WebServiceImplService();
+		WebServiceImpl webServiceImplPort = webServiceImplService.getWebServiceImplPort();
+		return webServiceImplPort.getPosition();
 	}
 	
 	@GetMapping("/api/orderInfo")

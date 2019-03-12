@@ -22,7 +22,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">网约车分析管理系统</a>
+                <a class="navbar-brand" href="index">网约车分析管理系统</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -102,6 +102,41 @@
     <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
     <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
     <script>$("#navul").children()[0].className="active";</script>
+    <script>
+        function getposition(){
+            $.ajax({
+                    type:"GET",
+                    url:"http://"+hosturl+":8080/api/position",
+                    dataType:"json",
+                    success:function(data){
+                        map.clearOverlays();
+                        data = data.position;
+                        var points = [];  // 添加海量点数据
+                        for (tmp in data) {
+                            var a = data[tmp].split(",");
+                            var p = new BMap.Point(a[3], a[4]);
+                            p.data = a[0]+","+a[1];
+                            points.push(p);
+                        }
+                        var options = {
+                            size: BMAP_POINT_SIZE_BIG,
+                            shape: BMAP_POINT_SHAPE_STAR,
+                            color: '#d340c3'
+                        }
+                        var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
+                        pointCollection.addEventListener('click', function (e) {
+                        alert('单击点的坐标为：' + e.point.data);  // 监听点击事件
+                        });
+                        map.addOverlay(pointCollection);  // 添加Overlay
+                        //console.log(data);
+                    },
+                    error:function(jqXHR){
+                        console.log("Error: "+jqXHR.status);
+                    }
+                });
+        }
+        setInterval(getposition,1000);
+    </script>
 </body>
 
 </html>

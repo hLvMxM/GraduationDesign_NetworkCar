@@ -48,6 +48,25 @@ public class IndexController {
 		return "orderhis";
 	}
 	
+	@GetMapping("/thermodynamic")
+	public String thermodynamic() {
+		return "thermodynamic";
+	}
+	
+	@GetMapping("/count")
+	public String count() {
+		return "count";
+	}
+	
+	@GetMapping("/predict")
+	public String predict() {
+		return "predict";
+	}
+	@GetMapping("/dispatch")
+	public String dispatch() {
+		return "dispatch";
+	}
+	
 	@GetMapping("/setting")
 	public String setting(Model map) {
 		List<User> allUser = (new UserService()).loadAllUser();

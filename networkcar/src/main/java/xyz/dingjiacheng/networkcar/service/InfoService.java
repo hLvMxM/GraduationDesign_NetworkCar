@@ -73,7 +73,7 @@ public class InfoService {
 				stringBuilder.append(",");
 			}
 			flag = 1;
-			stringBuilder.append(entry.getValue());
+			stringBuilder.append("\""+entry.getValue()+"\"");
 		}
 		json = "{\"position\":["+stringBuilder.toString()+"]}";
 		//System.out.println(json);
