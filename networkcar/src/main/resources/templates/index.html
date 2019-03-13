@@ -112,11 +112,14 @@
                         map.clearOverlays();
                         data = data.position;
                         var points = [];  // 添加海量点数据
+                        $("tbody").empty();
                         for (tmp in data) {
                             var a = data[tmp].split(",");
                             var p = new BMap.Point(a[3], a[4]);
                             p.data = a[0]+","+a[1];
                             points.push(p);
+                            if(tmp<=10)
+                                $("tbody").append("<tr><td>"+a[0]+"</td><td>"+a[1]+"</td><td>"+a[3].substr(0,6)+","+a[4].substr(0,6)+"</td><td>"+a[2]+"</td><td><a>查看</a></td></tr>");
                         }
                         var options = {
                             size: BMAP_POINT_SIZE_BIG,
@@ -128,14 +131,13 @@
                         alert('单击点的坐标为：' + e.point.data);  // 监听点击事件
                         });
                         map.addOverlay(pointCollection);  // 添加Overlay
-                        //console.log(data);
                     },
                     error:function(jqXHR){
                         console.log("Error: "+jqXHR.status);
                     }
                 });
         }
-        setInterval(getposition,1000);
+        setInterval(getposition,5000);
     </script>
 </body>
 
