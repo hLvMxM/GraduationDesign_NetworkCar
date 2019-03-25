@@ -4,8 +4,11 @@ import java.rmi.RemoteException;
 
 import javax.xml.rpc.ServiceException;
 
-import xyz.dingjiacheng.hbasewebservice.service.impl.WebServiceImpl;
-import xyz.dingjiacheng.hbasewebservice.service.impl.WebServiceImplService;
+import xyz.dingjiacheng.networkcar.webservice.WebServiceImpl;
+import xyz.dingjiacheng.networkcar.webservice.WebServiceImplService;
+
+
+
 
 public class ScanService {
 	public static String getOrder(String driverID) {
@@ -23,6 +26,6 @@ public class ScanService {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(getPosition("00020b4f80861361d5a20a5296d14691"));
+		System.out.println(getPosition("efac74a1486034190fcc5b474411fa11"));
 	}
 }

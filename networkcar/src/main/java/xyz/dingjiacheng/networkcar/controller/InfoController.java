@@ -3,22 +3,105 @@ package xyz.dingjiacheng.networkcar.controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import xyz.dingjiacheng.networkcar.service.InfoService;
+
+import xyz.dingjiacheng.networkcar.service.CountService;
 import xyz.dingjiacheng.networkcar.service.ScanService;
-import xyz.dingjiacheng.networkcar.util.CoordinatesConvertUtil;
+import xyz.dingjiacheng.networkcar.service.thermodynamicService;
 import xyz.dingjiacheng.networkcar.util.DBUtil;
-import xyz.dingjiacheng.networkcar.util.MapCordinatesVo;
-import xyz.dingjiacheng.writeandreaddatatokafka.service.impl.WebServiceImpl;
-import xyz.dingjiacheng.writeandreaddatatokafka.service.impl.WebServiceImplService;
+import xyz.dingjiacheng.networkcar.webservice.WebServiceImpl;
+import xyz.dingjiacheng.networkcar.webservice.WebServiceImplService;
 
 @RestController
 public class InfoController {
+	
+	@GetMapping("/api/thermodynamic")
+	public String thermodynamic(@RequestParam(name = "start", required = true) Long starttime,@RequestParam(name = "stop", required = true) Long stoptime) {
+		String scanthermodynamic = thermodynamicService.scanthermodynamic(starttime, stoptime);
+		String[] split = scanthermodynamic.split("\n");
+		StringBuilder sb = new StringBuilder();
+		int flag = 0;
+		for (String string : split) {
+			if(flag==1) {
+				sb.append(",");
+			}
+			String[] split2 = string.split(":");
+			String string2 = Arrays.toString(split2);
+			sb.append(string2);
+			flag = 1;
+		}
+		return "{\"thermodynamic\":["+sb.toString()+"]}";
+	}
+	
+	@GetMapping("/api/getdoingcount")
+	public String getdoingcount() {
+		return CountService.getCount();
+	}
+	@GetMapping("/api/scancount")
+	public String scancount(@RequestParam(name = "start", required = true) Long starttime,@RequestParam(name = "stop", required = true) Long stoptime) {
+		String scanCount = CountService.scanCount(starttime, stoptime);
+		String[] split = scanCount.split("\n");
+		StringBuilder sb1 = new StringBuilder("");
+		StringBuilder sb2 = new StringBuilder("");
+		StringBuilder sb3 = new StringBuilder("");
+		HashMap<Long,Long> countMap = new HashMap<Long,Long>();
+		HashMap<Long,Long> doneMap = new HashMap<Long,Long>();
+		HashMap<Long,Long> newdriverMap = new HashMap<Long,Long>();
+		for (String string : split) {
+			String[] split2 = string.split(":");
+			if("count".equals(split2[1])) {
+				Long count = countMap.getOrDefault(Long.valueOf(split2[2])/600, 0L);
+				countMap.put(Long.valueOf(split2[2])/600, count+Long.valueOf(split2[0]));
+			}else if("driver".equals(split2[1])) {
+				Long count = newdriverMap.getOrDefault(Long.valueOf(split2[2])/600, 0L);
+				newdriverMap.put(Long.valueOf(split2[2])/600, count+Long.valueOf(split2[0]));
+			}else if("done".equals(split2[1])) {
+				Long count = doneMap.getOrDefault(Long.valueOf(split2[2])/600, 0L);
+				doneMap.put(Long.valueOf(split2[2])/600, count+Long.valueOf(split2[0]));
+			}
+			
+		}
+		int flag = 0;
+		for(Map.Entry<Long, Long> entry: doneMap.entrySet())
+        {
+			String tmp = "["+entry.getKey()+","+entry.getValue()+"]";
+			if(flag == 1) {	sb1.append(",");	}
+			sb1.append(tmp);
+			flag = 1;
+        }
+		flag = 0;
+		for(Map.Entry<Long, Long> entry: countMap.entrySet())
+        {
+			String tmp = "["+entry.getKey()+","+entry.getValue()+"]";
+			if(flag == 1) {	sb2.append(",");	}
+			sb2.append(tmp);
+			flag = 1;
+        }
+		flag = 0;
+		for(Map.Entry<Long, Long> entry: newdriverMap.entrySet())
+        {
+			String tmp = "["+entry.getKey()+","+entry.getValue()+"]";
+			if(flag == 1) {	sb3.append(",");	}
+			sb3.append(tmp);
+			flag = 1;
+        }
+		return "{\"newdriver\":["+sb3.toString()+"],"
+		+ "\"count\":["+sb2.toString()+"],"
+		+ "\"done\":["+sb1.toString()+"]}";
+	}
+	
+	public static void main(String[] args) {
+		String scancount = (new InfoController()).scancount(1475491026L, 1475507711L);
+		System.out.println(scancount);
+	}
 	
 	@GetMapping("/api/position")
 	public String getPosition() { 
@@ -54,8 +137,7 @@ public class InfoController {
 		StringBuilder stringBuilder = new StringBuilder("");
 		for (String string : split) {
 			String[] info = string.split(":");
-			MapCordinatesVo mcv = CoordinatesConvertUtil.bd_encrypt(Double.valueOf(info[0]), Double.valueOf(info[1]));
-			stringBuilder.append("[\""+mcv.getLat()+"\",\""+mcv.getLon()+"\",\""+info[2]+"\"],");
+			stringBuilder.append("[\""+info[2]+"\",\""+info[3]+"\",\""+info[2]+"\"],");
 		}
 		String json = stringBuilder.toString();
 		json = "{\"position\":["+json.substring(0,json.length()-1)+"]}";
@@ -161,5 +243,11 @@ public class InfoController {
 			}
 		}
 		return password;
+	}
+	@GetMapping("/api/time")
+	public String gettime() {
+		WebServiceImplService webServiceImplService = new WebServiceImplService();
+		WebServiceImpl webServiceImplPort = webServiceImplService.getWebServiceImplPort();
+		return webServiceImplPort.getnowTime();
 	}
 }

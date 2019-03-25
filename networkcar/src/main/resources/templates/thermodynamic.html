@@ -9,6 +9,7 @@
     <link th:href="@{/css/font-awesome.css}" href="../static/css/font-awesome.css" rel="stylesheet" />
     <link th:href="@{/css/sb-admin.css}" href="../static/css/sb-admin.css" rel="stylesheet" />
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=lHx4zGMQYD0KbWKsXHtA1XQBtsn9gruX"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
 </head>
 
 <body>
@@ -73,30 +74,20 @@
                             <div class="panel-body">
                             	<div class="panel-title" style="display:inline">
                                     <div class="row">
-	                                    <div class="col-lg-9">
-	                                    	<input type="text" class="form-control" id="driverid" placeholder="请输入司机ID">
+	                                    <div class="col-lg-6">
+	                                    	<input id="starttime" type="datetime-local" value="2016-10-01T16:30:00"/>
+	                                    	-
+	                                    	<input id="stoptime" type="datetime-local" value="2016-10-01T17:30:00"/>
 	                                    </div>
 	                                    <div class="col-lg-3">
-	                                    	<button type="submit" class="btn btn-default" onclick="search()">查询</button>
+	                                    	<button type="submit" class="btn btn-default" onclick="search()">查询起点热力图</button>
+	                                    </div>
+	                                    <div class="col-lg-3">
+	                                    	<button type="submit" class="btn btn-default" onclick="search()">查询终点热力图</button>
 	                                    </div>
                                     </div>
                                 </div>
                                 <br/>
-                                <div class="table-responsive">
-                                    <table id="ordertable" class="table table-bordered table-hover table-striped tablesorter">
-                                        <thead>
-                                            <tr>
-                                                <th class="header">司机ID<i class="fa fa-sort"></i></th>
-                                                <th class="header">订单ID<i class="fa fa-sort"></i></th>
-                                                <th class="header">开始时间<i class="fa fa-sort"></i></th>
-                                                <th class="header">订单状态<i class="fa fa-sort"></i></th>
-                                                <th class="header">操作<i class="fa fa-sort"></i></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -109,59 +100,31 @@
     <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
     <script>
         function search(){
-            driverid = $("#driverid")[0].value;
+        	starttime = Date.parse($("#starttime")[0].value)/1000;
+        	stoptime = Date.parse($("#stoptime")[0].value)/1000;
+        	console.log(starttime);
+        	console.log(stoptime);
             $.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/orderInfo?id="+driverid,
+                url:"http://"+hosturl+":8080/api/thermodynamic?start="+starttime+"&stop="+stoptime,
                 dataType:"json",
                 success:function(data){
-                    $("#ordertable tr:not(:first)").empty("");
-                    for(tmp in data['order']){
-                        info = data['order'][tmp];
-                        var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+Conversiontime(parseInt(info[2])*1000)+"</td><td>"+info[3]+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
-                        $("#ordertable tr:eq(0)").after(trHTML);
-                    }
+                    var points = [];
+                 	var mydata = data["thermodynamic"];
+                 	for(tmp in mydata){
+                 		console.log(mydata[tmp]);
+                 		points.push({"lng":mydata[tmp][2],"lat":mydata[tmp][1],"count":mydata[tmp][0]});
+                 	}
+                 	heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
+                	map.addOverlay(heatmapOverlay);
+                	heatmapOverlay.setDataSet({data:points,max:4000});
                 },
                 error:function(jqXHR){
                     console.log("Error: "+jqXHR.status);
                 }
             });
         }
-        var polylines = {};
-        function findposition(orderid){
-            if(polylines[orderid]!=undefined)
-            	return;
-        	$.ajax({
-                type:"GET",
-                url:"http://"+hosturl+":8080/api/positionInfo?id="+orderid,
-                dataType:"json",
-                success:function(data){
-                    var pois = [];
-                    for(tmp in data['position']){
-                        info = data['position'][tmp];
-                        pois.push(new BMap.Point(info[0],info[1]));
-                    }
-                    var polyline = new BMap.Polyline(pois, {
-	                    enableEditing: false,//是否启用线编辑，默认为false
-	                    enableClicking: true,//是否响应点击事件，默认为true
-	                    strokeWeight:'8',//折线的宽度，以像素为单位
-	                    strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
-	                    strokeColor:"#18a45b" //折线颜色
-                    });
-                    polylines[orderid] = polyline;
-                    map.addOverlay(polyline);          //增加折线
-                },
-                error:function(jqXHR){
-                    console.log("Error: "+jqXHR.status);
-                }
-            });
-        }
-        function removePosition(orderid){
-        	if(polylines[orderid]!=undefined){
-        		map.removeOverlay(polylines[orderid]);
-        		delete polylines[orderid];
-        	}
-        }
+        
         function Conversiontime(timestamp) {
         	var date = new Date(timestamp);
             Y = date.getFullYear() + '-';
