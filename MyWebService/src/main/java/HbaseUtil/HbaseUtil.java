@@ -1,6 +1,8 @@
 package HbaseUtil;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,8 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
+
+import com.rabbitmq.client.AMQP.Connection.Start;
 
 import Properties.PM;
 import thermodynamiccount.GeoHashUtil;
@@ -432,6 +436,35 @@ public class HbaseUtil {
 
 	}
 	
+	public static String getDone(Long time) {
+		Scan scan = new Scan();
+		String timeStamp2Date = timeStamp2Date(time.toString(),"yyyy-MM-dd");
+		String date2TimeStamp = date2TimeStamp(timeStamp2Date,"yyyy-MM-dd");
+		
+		scan.withStopRow(time.toString().getBytes());
+		scan.withStartRow(date2TimeStamp.toString().getBytes());
+		scan.addColumn("count".getBytes(), null);
+		scan.addColumn("type".getBytes(), null);
+		long driver = 0l;
+		long done = 0l;
+		try {
+			ResultScanner scanner = countTable.getScanner(scan);
+			for (Result result : scanner) {
+				String count = Bytes.toString(result.getValue("count".getBytes(), null));
+				String type = Bytes.toString(result.getValue("type".getBytes(), null));
+				if("driver".equals(type)) {
+					driver += Long.valueOf(count);
+				}else if("done".equals(type)) {
+					done += Long.valueOf(count);
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return String.valueOf(driver) + ":" + String.valueOf(done);
+	}
+	
 	private static String findEnd(String start) {
 		if(start.length()==0)
 			return "";
@@ -441,10 +474,27 @@ public class HbaseUtil {
 		return end+charAt;
 	}
 
+	
 	public static void main(String[] args) {
 		new PM("C:\\Users\\30837\\Desktop\\tmp.properties");
 		initHbaseUtil();
 		sendInfo("4dd86314a233709a624edf23a22480e7,e71a1b95ec999a249bb463ce618fae55,1475272543,104.1006289,30.7166302,1");
 	}
-	
+	public static String timeStamp2Date(String seconds,String format) {  
+        if(seconds == null || seconds.isEmpty() || seconds.equals("null")){  
+            return "";  
+        }  
+        if(format == null || format.isEmpty()) format = "yyyy-MM-dd HH:mm:ss";  
+        SimpleDateFormat sdf = new SimpleDateFormat(format);  
+        return sdf.format(new Date(Long.valueOf(seconds+"000")));  
+    }  
+	public static String date2TimeStamp(String date_str,String format){  
+        try {  
+            SimpleDateFormat sdf = new SimpleDateFormat(format);  
+            return String.valueOf(sdf.parse(date_str).getTime()/1000);  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }  
+        return "";  
+    }  
 }

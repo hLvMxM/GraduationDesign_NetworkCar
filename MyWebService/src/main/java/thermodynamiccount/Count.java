@@ -15,15 +15,16 @@ import java.util.logging.SimpleFormatter;
 import HbaseUtil.HbaseUtil;
 import Properties.PM;
 import readFileAndSendKafka.ReadFileSendKafka;
+import static time.Time.getdispart;
 
 public class Count {
 	
 	public static Logger logger = Logger.getLogger("ThermodynamicCount");
 	
-	
-	
 	public static void main(String[] args) throws IOException  {
 		String startflag = PM.pps.getProperty("ThermodynamicCount.startoncetime");
+		
+		//设置日志相关信息
 		FileHandler fileHandler;
 		try {
 			fileHandler = new FileHandler(PM.pps.getProperty("ThermodynamicCount.logpath"));
@@ -36,26 +37,11 @@ public class Count {
 		}
 		logger.log(Level.INFO,"start find disparity");
 		logger.log(Level.INFO,"find disparity");
-		File file = new File(PM.pps.getProperty("ReadFileSendKafka.writeProgress"));
-		FileReader fr;
-		long disparity;
-		try {
-			fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
-			String readLine = br.readLine();
-		if(readLine==null) {
-			disparity = System.currentTimeMillis()/1000 - 1475251327L;
-		}else {
-			String time = readLine.split(",")[1];
-			br.close();fr.close();
-			disparity = System.currentTimeMillis()/1000-Long.valueOf(time);
-		}
-		} catch (FileNotFoundException e1) {
-			disparity = System.currentTimeMillis()/1000- 1475251327L;
-		}
+		
+		//
+		long disparity = getdispart();
 		while (true) {
 			long thattime = System.currentTimeMillis()/1000-disparity;
-			logger.log(Level.INFO,"time is "+thattime+"|disparity is "+disparity);
 			if(thattime%3600<=10||"yes".equals(startflag)) {
 				try {
 					logger.log(Level.INFO,"start count:"+(thattime-3600));
@@ -76,13 +62,14 @@ public class Count {
 	}
 	
 	public static void countThe(long time) {
-		long starttime = time-3600;
+		long starttime = time-7200;
 		String result = HbaseUtil.scanIndexByOrder(String.valueOf(starttime),String.valueOf(time));
 		String[] split = result.split("\n");
 		Hashtable<String, Integer> startmap = new Hashtable<String, Integer>();
 		Hashtable<String, Integer> stopmap = new Hashtable<String, Integer>();
 		for (String string : split) {
 			String[] split2 = string.split(":");
+			if(split2.length<3) continue;
 			String key = split2[0] + "_" + split2[1];
 			String orderInfo = HbaseUtil.getOrderInfo(key);
 			if(orderInfo==null||orderInfo.length()==0) continue;
@@ -118,7 +105,7 @@ public class Count {
 			String key=iterator.next();
 			if(key.length()>=6)
 			{		
-				HbaseUtil.updateThermodynamic(keytime+"_"+key+"_2", startmap.get(key), keytime, 2);
+				HbaseUtil.updateThermodynamic(keytime+"_"+key+"_2", stopmap.get(key), keytime, 2);
 				logger.log(Level.INFO, "update2:" + key);
 			}
 		}

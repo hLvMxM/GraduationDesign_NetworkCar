@@ -250,4 +250,11 @@ public class InfoController {
 		WebServiceImpl webServiceImplPort = webServiceImplService.getWebServiceImplPort();
 		return webServiceImplPort.getnowTime();
 	}
+	
+	@GetMapping("/api/getcount")
+	public String getcount(@RequestParam(name = "time", required = true) Long time) {
+		WebServiceImplService webServiceImplService = new WebServiceImplService();
+		WebServiceImpl webServiceImplPort = webServiceImplService.getWebServiceImplPort();
+		return webServiceImplPort.getDoingNumberAndCount(time);
+	}
 }

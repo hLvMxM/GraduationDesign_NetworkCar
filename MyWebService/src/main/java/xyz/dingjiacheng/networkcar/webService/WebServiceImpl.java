@@ -67,4 +67,15 @@ public class WebServiceImpl implements WebService{
 		return "";
 	}
 
+	@Override
+	public String getDoingNumberAndCount(long time) {
+		String doing = HbaseUtil.getdoingcount();
+		String tmpString = HbaseUtil.getDone(time);
+		String done = tmpString.split(":")[1];
+		String newdriver = tmpString.split(":")[0];
+		return "{\"doing\":"+doing+",\"done\":"+done+",\"newdriver\":"+newdriver+"}";
+	}
+	
+	
+
 }

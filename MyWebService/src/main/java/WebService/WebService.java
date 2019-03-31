@@ -29,4 +29,7 @@ public interface WebService {
 	
 	@WebMethod
 	String getnowTime();
+	
+	@WebMethod
+	String getDoingNumberAndCount(long time);
 }	

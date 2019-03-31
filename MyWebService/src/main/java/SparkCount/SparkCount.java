@@ -45,6 +45,7 @@ import HbaseUtil.HbaseUtil;
 import Properties.PM;
 import readFileAndSendKafka.ReadFileSendKafka;
 import scala.Tuple2;
+import static time.Time.getdispart;
 
 public class SparkCount {
 
@@ -53,26 +54,7 @@ public class SparkCount {
 	private static Long disparity;
 	public static void main(String[] args) throws InterruptedException {
 		File file = new File(PM.pps.getProperty("ReadFileSendKafka.writeProgress"));
-		try {
-		if(file.exists()) {
-			FileReader fr;
-			fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
-			String readLine = br.readLine();
-			if(readLine==null||"".equals(readLine)) disparity = System.currentTimeMillis()/1000-1475251327L;
-			else {
-				String[] split = readLine.split(",");
-				Long startTime = Long.valueOf(split[1]);
-				disparity = System.currentTimeMillis()/1000 - startTime;
-			}
-			br.close();
-			fr.close();
-		}else { disparity = System.currentTimeMillis()/1000-1475251327L;}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		logger.setLevel(Level.WARN);
+		disparity = getdispart();
 		SparkConf conf = new SparkConf().setAppName("demo").setMaster("local[2]");
 		conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer");
 		JavaStreamingContext streamingContext = new JavaStreamingContext(conf,Durations.seconds(10));

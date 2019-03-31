@@ -25,10 +25,12 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _GetPosition_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getPosition");
+    private final static QName _GetDoingNumberAndCountResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getDoingNumberAndCountResponse");
     private final static QName _ScancountResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scancountResponse");
     private final static QName _Getdoingcount_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getdoingcount");
     private final static QName _ScanPositionByOrder_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scanPositionByOrder");
     private final static QName _Scanthermodynamic_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scanthermodynamic");
+    private final static QName _GetDoingNumberAndCount_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getDoingNumberAndCount");
     private final static QName _GetnowTimeResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getnowTimeResponse");
     private final static QName _Scancount_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scancount");
     private final static QName _ScanPositionByOrderResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scanPositionByOrderResponse");
@@ -121,6 +123,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetDoingNumberAndCountResponse }
+     * 
+     */
+    public GetDoingNumberAndCountResponse createGetDoingNumberAndCountResponse() {
+        return new GetDoingNumberAndCountResponse();
+    }
+
+    /**
      * Create an instance of {@link ScancountResponse }
      * 
      */
@@ -161,6 +171,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetDoingNumberAndCount }
+     * 
+     */
+    public GetDoingNumberAndCount createGetDoingNumberAndCount() {
+        return new GetDoingNumberAndCount();
+    }
+
+    /**
      * Create an instance of {@link GetnowTimeResponse }
      * 
      */
@@ -183,6 +201,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webService.networkcar.dingjiacheng.xyz/", name = "getPosition")
     public JAXBElement<GetPosition> createGetPosition(GetPosition value) {
         return new JAXBElement<GetPosition>(_GetPosition_QNAME, GetPosition.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetDoingNumberAndCountResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webService.networkcar.dingjiacheng.xyz/", name = "getDoingNumberAndCountResponse")
+    public JAXBElement<GetDoingNumberAndCountResponse> createGetDoingNumberAndCountResponse(GetDoingNumberAndCountResponse value) {
+        return new JAXBElement<GetDoingNumberAndCountResponse>(_GetDoingNumberAndCountResponse_QNAME, GetDoingNumberAndCountResponse.class, null, value);
     }
 
     /**
@@ -219,6 +246,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webService.networkcar.dingjiacheng.xyz/", name = "scanthermodynamic")
     public JAXBElement<Scanthermodynamic> createScanthermodynamic(Scanthermodynamic value) {
         return new JAXBElement<Scanthermodynamic>(_Scanthermodynamic_QNAME, Scanthermodynamic.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetDoingNumberAndCount }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webService.networkcar.dingjiacheng.xyz/", name = "getDoingNumberAndCount")
+    public JAXBElement<GetDoingNumberAndCount> createGetDoingNumberAndCount(GetDoingNumberAndCount value) {
+        return new JAXBElement<GetDoingNumberAndCount>(_GetDoingNumberAndCount_QNAME, GetDoingNumberAndCount.class, null, value);
     }
 
     /**

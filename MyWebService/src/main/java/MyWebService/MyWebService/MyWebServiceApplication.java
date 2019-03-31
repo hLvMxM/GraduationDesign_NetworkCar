@@ -14,7 +14,10 @@ import SparkCount.SparkCount;
 import consumerKafkaToHashMap.SimpleKafkaConsumer;
 import readFileAndSendKafka.ReadFileSendKafka;
 import thermodynamiccount.Count;
+import time.Time;
 import xyz.dingjiacheng.networkcar.webService.WebServiceImpl;
+
+
 
 @SpringBootApplication
 public class MyWebServiceApplication {
@@ -26,7 +29,7 @@ public class MyWebServiceApplication {
 	public static void main(String[] args)  {
 		new PM(args[0]);
 		HbaseUtil.initHbaseUtil();
-		final CountDownLatch latch = new CountDownLatch(3);
+		Time.initTime();
 		
 		String producekafka = PM.pps.getProperty("Application.producekafka");
 		String consumekafka = PM.pps.getProperty("Application.consumekafka");
@@ -46,7 +49,6 @@ public class MyWebServiceApplication {
 						flag = false;
 					}
 				}
-				latch.countDown();
 			}
 		});
 		Thread t2 = new Thread(new Runnable() {
@@ -56,19 +58,19 @@ public class MyWebServiceApplication {
 				while (True) {
 					SimpleKafkaConsumer.consumerKafka();
 				}
-				latch.countDown();
 			}
 		});
 		Thread t3 = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				try {
-					Count.main(null);
-				} catch (IOException e) {
-					e.printStackTrace();
+				while (true) {
+					try {
+						Count.main(null);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
-				latch.countDown();
 			}
 		});
 		Thread t4 = new Thread(new Runnable() {
@@ -94,13 +96,6 @@ public class MyWebServiceApplication {
 			String url = PM.pps.getProperty("WebServiceUrl");
 			Endpoint.publish(url,new WebServiceImpl());
 			System.out.println(url+"|success");
-			latch.countDown();
-		}
-		try {
-			latch.await();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		System.out.println("all Done");
 	}

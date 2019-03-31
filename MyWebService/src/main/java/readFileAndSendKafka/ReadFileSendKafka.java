@@ -11,11 +11,14 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import Properties.PM;
+import static time.Time.getdispart;
+import static time.Time.getnum;
 
 public class ReadFileSendKafka {
 	
 	public static Logger logger = Logger.getLogger("readFileAndSendKafka.ReadFileSendKafka"); 
 	public static Long disparity = null;
+	public static Long filenum = null;
 	
 	public static void main(String[] args) throws IOException, InterruptedException {
 		SimpleKafkaProducer skp = new SimpleKafkaProducer();
@@ -25,27 +28,16 @@ public class ReadFileSendKafka {
 		fileHandler.setFormatter(sf);
 		logger.addHandler(fileHandler);
 		logger.setLevel(Level.OFF);
-		logger.log(Level.INFO, "path-->"+PM.pps.getProperty("ReadFileSendKafka.gpsfile"));
 		
-		File file = new File(PM.pps.getProperty("ReadFileSendKafka.writeProgress"));
-		Long nowTime = System.currentTimeMillis()/1000;
-		Long startTime = 0L;
-		disparity = 0L;
-		int i = 1;
+		//
+		
+		filenum = getnum();
+		disparity = getdispart();
+		long startTime = System.currentTimeMillis()/1000 - disparity;
+		logger.info("The time disparity is:"+disparity+",time is:"+startTime);
+		
 		boolean initflag = false;
-		if(file.exists()) {
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
-			String readLine = br.readLine();
-			if(readLine==null||"".equals(readLine)) startTime=0L;
-			else {
-				String[] split = readLine.split(",");
-				i = Integer.valueOf(split[0]);
-				startTime = Long.valueOf(split[1]);
-			}
-		}else {startTime = 0L;}
-		logger.log(Level.INFO,"readfile done:time is:"+startTime+"|file is:"+i);
-		for (; i <= 31; i++) {
+		for (int i = Integer.valueOf(filenum.toString()); i <= 31; i++) {
 			String num = String.format("%02d", i);
 			File readFile = new File(PM.pps.getProperty("ReadFileSendKafka.gpsfile")+num);
 			FileReader fr = new FileReader(readFile);
@@ -55,11 +47,8 @@ public class ReadFileSendKafka {
 				Long time = Long.valueOf(str.split(",")[2]);
 				if(!initflag) {//未初始化
 					if(startTime-1>time) continue;
-					startTime = time;
-					nowTime = (System.currentTimeMillis()/1000);
-					disparity = nowTime - startTime;
+					logger.info("init done,time is :"+startTime);
 					initflag = true;
-					logger.log(Level.INFO, "init done:"+disparity);
 				}else {//已经初始化
 					skp.produce(str);
 					File lckfile = new File(PM.pps.getProperty("ReadFileSendKafka.writeProgressRenameFrom"));
@@ -68,15 +57,14 @@ public class ReadFileSendKafka {
 					fw.flush();
 					fw.close();
 					lckfile.renameTo(new File(PM.pps.getProperty("ReadFileSendKafka.writeProgress")));
-					logger.log(Level.INFO,"send:"+str);
+					logger.info("send:"+str+",time is "+ startTime);
 					if(startTime < time) {
 						Thread.sleep(1000);
 					}
-					nowTime = (System.currentTimeMillis()/1000);
+					long nowTime = (System.currentTimeMillis()/1000);
 					startTime = nowTime - disparity;
 				}
 			}
-			logger.log(Level.INFO,"fileDone:"+i);
 			br.close();
 			fr.close();
 		}

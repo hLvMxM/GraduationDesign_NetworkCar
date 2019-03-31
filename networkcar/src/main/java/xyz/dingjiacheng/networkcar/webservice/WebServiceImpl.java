@@ -134,6 +134,21 @@ public interface WebServiceImpl {
 
     /**
      * 
+     * @param arg0
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getDoingNumberAndCount", targetNamespace = "http://webService.networkcar.dingjiacheng.xyz/", className = "xyz.dingjiacheng.networkcar.webservice.GetDoingNumberAndCount")
+    @ResponseWrapper(localName = "getDoingNumberAndCountResponse", targetNamespace = "http://webService.networkcar.dingjiacheng.xyz/", className = "xyz.dingjiacheng.networkcar.webservice.GetDoingNumberAndCountResponse")
+    @Action(input = "http://webService.networkcar.dingjiacheng.xyz/WebServiceImpl/getDoingNumberAndCountRequest", output = "http://webService.networkcar.dingjiacheng.xyz/WebServiceImpl/getDoingNumberAndCountResponse")
+    public String getDoingNumberAndCount(
+        @WebParam(name = "arg0", targetNamespace = "")
+        long arg0);
+
+    /**
+     * 
      * @return
      *     returns java.lang.String
      */
