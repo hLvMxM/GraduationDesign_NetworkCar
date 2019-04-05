@@ -2,10 +2,12 @@ package xyz.dingjiacheng.networkcar.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,14 @@ public class IndexController {
 	}
 	
 	@GetMapping("/login")
-	public String login() {
+	public String login(HttpServletRequest httpServletRequest,ModelMap map) {
+		String queryString = httpServletRequest.getQueryString();
+		if("error".equals(queryString)) {
+			map.put("error", true);
+		}
+		else {
+			map.put("error", false);
+		}
 		return "login";
 	}
 	

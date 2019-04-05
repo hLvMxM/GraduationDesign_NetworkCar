@@ -65,7 +65,7 @@ public class SparkCount {
 		kafkaParams.put("group.id","sparktest");
 		kafkaParams.put("auto.offset.reset","latest");
 		kafkaParams.put("enable.auto.commit",false);
-		Collection<String> topics = Arrays.asList("networktest03181722");
+		Collection<String> topics = Arrays.asList(new String[]{PM.pps.getProperty("ReadFileSendKafka.KafkaTopic")});
 		
 		JavaInputDStream<ConsumerRecord<String, String>> stream = 
 				KafkaUtils.createDirectStream(streamingContext, LocationStrategies.PreferConsistent(), 

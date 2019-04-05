@@ -168,8 +168,7 @@ public class HbaseUtil {
 	
 	public static void sendInfo(String str) {
 		String[] split = str.split(",");
-		System.out.println(str);
-		System.out.println(split[5]);
+		logger.setLevel(Level.OFF);
 		if("0".equals(split[5])) {
 			if(updateOrderTable(str)) {
 				logger.log(Level.INFO, "order"+str);
@@ -476,9 +475,10 @@ public class HbaseUtil {
 
 	
 	public static void main(String[] args) {
-		new PM("C:\\Users\\30837\\Desktop\\tmp.properties");
+		
+		new PM(args[0]);
 		initHbaseUtil();
-		sendInfo("4dd86314a233709a624edf23a22480e7,e71a1b95ec999a249bb463ce618fae55,1475272543,104.1006289,30.7166302,1");
+		sendInfo("4dd86314a233709a624edf23a22480e7,e71a1b95ec999a249bb463ce618fae55,1475272543,104.1006289,30.7166302,0");
 	}
 	public static String timeStamp2Date(String seconds,String format) {  
         if(seconds == null || seconds.isEmpty() || seconds.equals("null")){  

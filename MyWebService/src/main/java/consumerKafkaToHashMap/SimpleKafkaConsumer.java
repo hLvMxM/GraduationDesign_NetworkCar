@@ -19,6 +19,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import HbaseUtil.HbaseUtil;
 import Properties.PM;
 import readFileAndSendKafka.ReadFileSendKafka;
+import static time.Time.getdispart;
 
 public class SimpleKafkaConsumer {
 	public static Logger logger = Logger.getLogger("consumerKafkaToHashMap.SimpleKafkaConsumer");
@@ -37,7 +38,7 @@ public class SimpleKafkaConsumer {
 			flag = 1;
 			String tmpString = entry.getValue();
 			Long valueOf = Long.valueOf(tmpString.split(",")[2]);
-			if(System.currentTimeMillis()/1000-ReadFileSendKafka.disparity-3600>valueOf)
+			if(System.currentTimeMillis()/1000-getdispart()-3600>valueOf)
 				list.add(entry.getKey());
 			stringBuilder.append("\""+tmpString+"\"");
 		}
@@ -78,12 +79,15 @@ public class SimpleKafkaConsumer {
         KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<String, String>(properties);
         kafkaConsumer.subscribe(Arrays.asList(PM.pps.getProperty("ReadFileSendKafka.KafkaTopic")));
         while (true) {
-            ConsumerRecords<String, String> records = kafkaConsumer.poll(100);
+            System.out.println("while true");
+        	ConsumerRecords<String, String> records = kafkaConsumer.poll(100);
             for (ConsumerRecord<String, String> record : records) {
             	String value = record.value();
-            	if("yes".equals(PM.pps.getProperty("HbaseUtil.iswrite")))
+            	System.out.println(value);
+            	if("yes".equals(PM.pps.getProperty("HbaseUtil.iswrite"))) {
             		HbaseUtil.sendInfo(value);
-                logger.log(Level.INFO, value);
+            		logger.log(Level.INFO, value);
+            	}
                 String[] split = value.split(",");
                 position.put(split[1], value);
                 if(split[5].equals("2"))
