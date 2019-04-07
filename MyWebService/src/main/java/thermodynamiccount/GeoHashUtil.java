@@ -2,8 +2,8 @@ package thermodynamiccount;
 
 
 public class GeoHashUtil {
-	private static final double minlat = 100.0;
-	private static final double maxlat = 120.0;
+	private static final double minlat = 130.0;
+	private static final double maxlat = 150.0;
 	private static final double minlon = 20.0;
 	private static final double maxlon = 40.0;
 	public static String getHash(Double lat,Double lon,int length) {

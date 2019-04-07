@@ -21,6 +21,8 @@ import org.apache.hadoop.hbase.util.Bytes;
 import com.rabbitmq.client.AMQP.Connection.Start;
 
 import Properties.PM;
+import ch.hsr.geohash.GeoHash;
+import ch.hsr.geohash.WGS84Point;
 import thermodynamiccount.GeoHashUtil;
 
 public class HbaseUtil {
@@ -100,7 +102,10 @@ public class HbaseUtil {
 		p.add(tb("count"), null, tb(String.valueOf(count)));
 		p.add(tb("time"), null, tb(String.valueOf(time)));
 		p.add(tb("status"), null, tb(String.valueOf(status)));
-		double[] mytohash = GeoHashUtil.mytohash(key.split("_")[1]);
+		
+		GeoHash geohash = GeoHash.fromGeohashString(key.split("_")[1]);
+		WGS84Point ws = geohash.getBoundingBoxCenterPoint();
+		double[] mytohash = {ws.getLatitude(),ws.getLongitude()};
 		p.add(tb("position"), tb("lat"), tb(String.valueOf(mytohash[0])));
 		p.add(tb("position"), tb("lon"), tb(String.valueOf(mytohash[1])));
 		try {
@@ -475,10 +480,9 @@ public class HbaseUtil {
 
 	
 	public static void main(String[] args) {
-		
-		new PM(args[0]);
-		initHbaseUtil();
-		sendInfo("4dd86314a233709a624edf23a22480e7,e71a1b95ec999a249bb463ce618fae55,1475272543,104.1006289,30.7166302,0");
+		GeoHash withCharacterPrecision = GeoHash.withCharacterPrecision(23, 123, 8);
+		double latitude = withCharacterPrecision.getBoundingBoxCenterPoint().getLatitude();
+		System.out.println(latitude);
 	}
 	public static String timeStamp2Date(String seconds,String format) {  
         if(seconds == null || seconds.isEmpty() || seconds.equals("null")){  

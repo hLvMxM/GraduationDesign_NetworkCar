@@ -80,10 +80,10 @@
 	                                    	<input id="stoptime" type="datetime-local" value="2016-10-01T17:30:00"/>
 	                                    </div>
 	                                    <div class="col-lg-3">
-	                                    	<button type="submit" class="btn btn-default" onclick="search()">查询起点热力图</button>
+	                                    	<button type="submit" class="btn btn-default" onclick="search(1)">查询起点热力图</button>
 	                                    </div>
 	                                    <div class="col-lg-3">
-	                                    	<button type="submit" class="btn btn-default" onclick="search()">查询终点热力图</button>
+	                                    	<button type="submit" class="btn btn-default" onclick="search(2)">查询终点热力图</button>
 	                                    </div>
                                     </div>
                                 </div>
@@ -99,11 +99,9 @@
     <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
     <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
     <script>
-        function search(){
+        function search(type){
         	starttime = Date.parse($("#starttime")[0].value)/1000;
         	stoptime = Date.parse($("#stoptime")[0].value)/1000;
-        	console.log(starttime);
-        	console.log(stoptime);
             $.ajax({
                 type:"GET",
                 url:"http://"+hosturl+":8080/api/thermodynamic?start="+starttime+"&stop="+stoptime,
@@ -111,13 +109,18 @@
                 success:function(data){
                     var points = [];
                  	var mydata = data["thermodynamic"];
+                 	var maxcount = 0;
                  	for(tmp in mydata){
-                 		console.log(mydata[tmp]);
+						console.log(mydata[tmp]);
                  		points.push({"lng":mydata[tmp][2],"lat":mydata[tmp][1],"count":mydata[tmp][0]});
+                 		if(maxcount<mydata[tmp][0]) maxcount = mydata[tmp][0];
                  	}
-                 	heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
+                 	heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":50});
                 	map.addOverlay(heatmapOverlay);
-                	heatmapOverlay.setDataSet({data:points,max:4000});
+                	
+                	//heatmapOverlay.setOptions({"gradient":gradient});
+                	heatmapOverlay.setDataSet({data:points,max:maxcount*0.75});
+                	heatmapOverlay.show();
                 },
                 error:function(jqXHR){
                     console.log("Error: "+jqXHR.status);

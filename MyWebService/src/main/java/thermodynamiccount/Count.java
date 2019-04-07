@@ -14,6 +14,7 @@ import java.util.logging.SimpleFormatter;
 
 import HbaseUtil.HbaseUtil;
 import Properties.PM;
+import ch.hsr.geohash.GeoHash;
 import readFileAndSendKafka.ReadFileSendKafka;
 import static time.Time.getdispart;
 
@@ -68,6 +69,7 @@ public class Count {
 		Hashtable<String, Integer> startmap = new Hashtable<String, Integer>();
 		Hashtable<String, Integer> stopmap = new Hashtable<String, Integer>();
 		for (String string : split) {
+			logger.info(string);
 			String[] split2 = string.split(":");
 			if(split2.length<3) continue;
 			String key = split2[0] + "_" + split2[1];
@@ -85,13 +87,19 @@ public class Count {
 			} catch (Exception e) {
 				continue;
 			}
-			String startGeohash = GeoHashUtil.getHash(startlat, startlon, 28);
-			String stopGeohash = GeoHashUtil.getHash(endlat, endlon, 28);
+			int precision = 7; // Geohash编码字符的长度（最大为12）
+	        GeoHash geoHash = GeoHash.withCharacterPrecision(startlon, startlat, precision);
+	        String startGeohash = geoHash.toBase32(); // 使用给定的经纬度坐标生成的二进制编码
+
+	        geoHash = GeoHash.withCharacterPrecision(endlon, endlat, precision);
+	        String stopGeohash = geoHash.toBase32(); // 使用给定的经纬度坐标生成的二进制编码
+
 			Integer startcount = startmap.getOrDefault(startGeohash, 0);
 			startmap.put(startGeohash, startcount+1);
 			Integer stopcount = stopmap.getOrDefault(startGeohash, 0);
 			stopmap.put(stopGeohash, stopcount+1);
 		}
+		logger.info("done");
 		long keytime = starttime;
 		for(Iterator<String> iterator=startmap.keySet().iterator();iterator.hasNext();){
 			String key=iterator.next();

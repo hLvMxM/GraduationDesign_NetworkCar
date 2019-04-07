@@ -118,6 +118,7 @@
                     $("#ordertable tr:not(:first)").empty("");
                     for(tmp in data['order']){
                         info = data['order'][tmp];
+                    	console.log(info);
                         var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+Conversiontime(parseInt(info[2])*1000)+"</td><td>"+info[3]+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
                         $("#ordertable tr:eq(0)").after(trHTML);
                     }

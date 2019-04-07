@@ -2,7 +2,6 @@ package xyz.dingjiacheng.networkcar.service;
 
 import java.rmi.RemoteException;
 
-import javax.xml.rpc.ServiceException;
 
 import xyz.dingjiacheng.networkcar.webservice.WebServiceImpl;
 import xyz.dingjiacheng.networkcar.webservice.WebServiceImplService;
