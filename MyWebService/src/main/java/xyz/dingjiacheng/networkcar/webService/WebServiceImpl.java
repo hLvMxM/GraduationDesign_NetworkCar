@@ -10,6 +10,8 @@ import HbaseUtil.HbaseUtil;
 import Properties.PM;
 import WebService.WebService;
 import consumerKafkaToHashMap.SimpleKafkaConsumer;
+import predict.Predict;
+import time.Time;
 
 @javax.jws.WebService
 public class WebServiceImpl implements WebService{
@@ -74,6 +76,16 @@ public class WebServiceImpl implements WebService{
 		String done = tmpString.split(":")[1];
 		String newdriver = tmpString.split(":")[0];
 		return "{\"doing\":"+doing+",\"done\":"+done+",\"newdriver\":"+newdriver+"}";
+	}
+
+	@Override
+	public String getDispart() {
+		return String.valueOf(Time.getdispart());
+	}
+
+	@Override
+	public String getPre() {
+		return Predict.getPre();
 	}
 	
 	

@@ -119,7 +119,7 @@
                             p.data = a[0]+","+a[1];
                             points.push(p);
                             if(tmp<=10)
-                                $("tbody").append("<tr><td>"+a[0]+"</td><td>"+a[1]+"</td><td>"+a[3].substr(0,6)+","+a[4].substr(0,6)+"</td><td>"+a[2]+"</td><td><a>查看</a></td></tr>");
+                                $("tbody").append("<tr><td>"+a[0]+"</td><td>"+a[1]+"</td><td>"+a[3].substr(0,6)+","+a[4].substr(0,6)+"</td><td>"+getLocalTime(a[2])+"</td><td><a>查看</a></td></tr>");
                         }
                         var options = {
                             size: BMAP_POINT_SIZE_BIG,
@@ -137,7 +137,11 @@
                     }
                 });
         }
+        getposition();
         setInterval(getposition,5000);
+        function getLocalTime(nS) {     
+       	   return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
+       	}
     </script>
 </body>
 

@@ -32,4 +32,12 @@ public interface WebService {
 	
 	@WebMethod
 	String getDoingNumberAndCount(long time);
+	
+	@WebMethod
+	String getDispart();
+	
+	@WebMethod
+	String getPre();
+	
+	
 }	

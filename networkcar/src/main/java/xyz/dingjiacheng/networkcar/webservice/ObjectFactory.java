@@ -30,13 +30,17 @@ public class ObjectFactory {
     private final static QName _Getdoingcount_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getdoingcount");
     private final static QName _ScanPositionByOrder_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scanPositionByOrder");
     private final static QName _Scanthermodynamic_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scanthermodynamic");
+    private final static QName _GetDispart_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getDispart");
     private final static QName _GetDoingNumberAndCount_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getDoingNumberAndCount");
     private final static QName _GetnowTimeResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getnowTimeResponse");
     private final static QName _Scancount_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scancount");
     private final static QName _ScanPositionByOrderResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scanPositionByOrderResponse");
+    private final static QName _GetDispartResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getDispartResponse");
     private final static QName _ScanOrderByDriverResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scanOrderByDriverResponse");
     private final static QName _GetdoingcountResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getdoingcountResponse");
     private final static QName _ScanIndexByOrder_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scanIndexByOrder");
+    private final static QName _GetPre_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getPre");
+    private final static QName _GetPreResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getPreResponse");
     private final static QName _GetPositionResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getPositionResponse");
     private final static QName _GetnowTime_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "getnowTime");
     private final static QName _ScanIndexByOrderResponse_QNAME = new QName("http://webService.networkcar.dingjiacheng.xyz/", "scanIndexByOrderResponse");
@@ -64,6 +68,22 @@ public class ObjectFactory {
      */
     public ScanOrderByDriverResponse createScanOrderByDriverResponse() {
         return new ScanOrderByDriverResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetPreResponse }
+     * 
+     */
+    public GetPreResponse createGetPreResponse() {
+        return new GetPreResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetPre }
+     * 
+     */
+    public GetPre createGetPre() {
+        return new GetPre();
     }
 
     /**
@@ -171,6 +191,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetDispart }
+     * 
+     */
+    public GetDispart createGetDispart() {
+        return new GetDispart();
+    }
+
+    /**
      * Create an instance of {@link GetDoingNumberAndCount }
      * 
      */
@@ -192,6 +220,14 @@ public class ObjectFactory {
      */
     public Scancount createScancount() {
         return new Scancount();
+    }
+
+    /**
+     * Create an instance of {@link GetDispartResponse }
+     * 
+     */
+    public GetDispartResponse createGetDispartResponse() {
+        return new GetDispartResponse();
     }
 
     /**
@@ -249,6 +285,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetDispart }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webService.networkcar.dingjiacheng.xyz/", name = "getDispart")
+    public JAXBElement<GetDispart> createGetDispart(GetDispart value) {
+        return new JAXBElement<GetDispart>(_GetDispart_QNAME, GetDispart.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetDoingNumberAndCount }{@code >}}
      * 
      */
@@ -285,6 +330,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetDispartResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webService.networkcar.dingjiacheng.xyz/", name = "getDispartResponse")
+    public JAXBElement<GetDispartResponse> createGetDispartResponse(GetDispartResponse value) {
+        return new JAXBElement<GetDispartResponse>(_GetDispartResponse_QNAME, GetDispartResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ScanOrderByDriverResponse }{@code >}}
      * 
      */
@@ -309,6 +363,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webService.networkcar.dingjiacheng.xyz/", name = "scanIndexByOrder")
     public JAXBElement<ScanIndexByOrder> createScanIndexByOrder(ScanIndexByOrder value) {
         return new JAXBElement<ScanIndexByOrder>(_ScanIndexByOrder_QNAME, ScanIndexByOrder.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetPre }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webService.networkcar.dingjiacheng.xyz/", name = "getPre")
+    public JAXBElement<GetPre> createGetPre(GetPre value) {
+        return new JAXBElement<GetPre>(_GetPre_QNAME, GetPre.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetPreResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webService.networkcar.dingjiacheng.xyz/", name = "getPreResponse")
+    public JAXBElement<GetPreResponse> createGetPreResponse(GetPreResponse value) {
+        return new JAXBElement<GetPreResponse>(_GetPreResponse_QNAME, GetPreResponse.class, null, value);
     }
 
     /**

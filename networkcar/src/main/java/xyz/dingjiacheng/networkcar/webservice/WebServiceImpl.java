@@ -26,6 +26,18 @@ public interface WebServiceImpl {
 
     /**
      * 
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getPre", targetNamespace = "http://webService.networkcar.dingjiacheng.xyz/", className = "xyz.dingjiacheng.networkcar.webservice.GetPre")
+    @ResponseWrapper(localName = "getPreResponse", targetNamespace = "http://webService.networkcar.dingjiacheng.xyz/", className = "xyz.dingjiacheng.networkcar.webservice.GetPreResponse")
+    @Action(input = "http://webService.networkcar.dingjiacheng.xyz/WebServiceImpl/getPreRequest", output = "http://webService.networkcar.dingjiacheng.xyz/WebServiceImpl/getPreResponse")
+    public String getPre();
+
+    /**
+     * 
      * @param arg0
      * @return
      *     returns java.lang.String
@@ -146,6 +158,18 @@ public interface WebServiceImpl {
     public String getDoingNumberAndCount(
         @WebParam(name = "arg0", targetNamespace = "")
         long arg0);
+
+    /**
+     * 
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getDispart", targetNamespace = "http://webService.networkcar.dingjiacheng.xyz/", className = "xyz.dingjiacheng.networkcar.webservice.GetDispart")
+    @ResponseWrapper(localName = "getDispartResponse", targetNamespace = "http://webService.networkcar.dingjiacheng.xyz/", className = "xyz.dingjiacheng.networkcar.webservice.GetDispartResponse")
+    @Action(input = "http://webService.networkcar.dingjiacheng.xyz/WebServiceImpl/getDispartRequest", output = "http://webService.networkcar.dingjiacheng.xyz/WebServiceImpl/getDispartResponse")
+    public String getDispart();
 
     /**
      * 

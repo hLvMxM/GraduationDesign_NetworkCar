@@ -285,7 +285,7 @@ public class HbaseUtil {
 				String endlat = Bytes.toString(result.getValue("info".getBytes(), "endlat".getBytes()));
 				String endlon = Bytes.toString(result.getValue("info".getBytes(), "endlon".getBytes()));
 				String endtime = Bytes.toString(result.getValue("info".getBytes(), "endtime".getBytes()));
-				String status = Bytes.toString(result.getValue("state".getBytes(), null));
+				String status = Bytes.toString(result.getValue("status".getBytes(), null));
 				sb.append(driverID + ":" + string  + ":" + startlat + ":" + startlon + ":" + starttime + 
 						":" + endlat + ":" + endlon + ":" + endtime + ":" + status + "\n");
 			}

@@ -120,7 +120,7 @@ public class InfoController {
 		StringBuilder stringBuilder = new StringBuilder("");
 		for (String string : split) {
 			String[] info = string.split(":");
-			stringBuilder.append("[\""+info[0]+"\",\""+info[1]+"\",\""+info[2]+"\",\""+info[3]+"\"],");
+			stringBuilder.append("[\""+info[0]+"\",\""+info[1]+"\",\""+info[4]+"\",\""+info[8]+"\"],");
 		}
 		String json = stringBuilder.toString();
 		json = "{\"order\":["+json.substring(0,json.length()-1)+"]}";
@@ -256,5 +256,25 @@ public class InfoController {
 		WebServiceImplService webServiceImplService = new WebServiceImplService();
 		WebServiceImpl webServiceImplPort = webServiceImplService.getWebServiceImplPort();
 		return webServiceImplPort.getDoingNumberAndCount(time);
+	}
+	
+	@GetMapping("/api/getpre")
+	public String getpre() {
+		WebServiceImplService webServiceImplService = new WebServiceImplService();
+		WebServiceImpl webServiceImplPort = webServiceImplService.getWebServiceImplPort();
+		String pre = webServiceImplPort.getPre();
+		String[] split = pre.split("\n");
+		StringBuilder sb = new StringBuilder("{");
+		int flag = 0;
+		for (String string : split) {
+			String[] split2 = string.split(":");
+			if(flag!=0) {
+				sb.append(",");
+			}
+			sb.append("\""+split2[0]+"\":"+split2[1]);
+			flag = 1;
+		}
+		sb.append("}");
+		return sb.toString();
 	}
 }

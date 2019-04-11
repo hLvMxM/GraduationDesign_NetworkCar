@@ -1,6 +1,7 @@
 package MyWebService.MyWebService;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
 import javax.xml.ws.Endpoint;
@@ -12,6 +13,7 @@ import HbaseUtil.HbaseUtil;
 import Properties.PM;
 import SparkCount.SparkCount;
 import consumerKafkaToHashMap.SimpleKafkaConsumer;
+import predict.Predict;
 import readFileAndSendKafka.ReadFileSendKafka;
 import thermodynamiccount.Count;
 import time.Time;
@@ -36,6 +38,7 @@ public class MyWebServiceApplication {
 		String thermodynamiccount = PM.pps.getProperty("Application.thermodynamiccount");
 		String webservice = PM.pps.getProperty("Application.webservice");
 		String sparkcount = PM.pps.getProperty("Application.sparkcount");
+		String prenum = PM.pps.getProperty("Application.prenum");
 		
 		Thread t1 = new Thread(new Runnable() {
 			@Override
@@ -87,10 +90,30 @@ public class MyWebServiceApplication {
 				}
 			}
 		});
+		Thread t5 = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				long getdispart = Time.getdispart();
+				Predict.main(args);
+				while (true) {
+					if (new Date(getdispart).getMinutes()==0) {
+						Predict.main(args);
+						try {
+							Thread.sleep(5000 * 20);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 		if(isYes(producekafka)) t1.start();
 		if(isYes(consumekafka)) t2.start();
 		if(isYes(thermodynamiccount)) t3.start();
 		if(isYes(sparkcount)) t4.start();
+		if(isYes(prenum)) t5.start();
 		if(isYes(webservice)) {
 			SpringApplication.run(MyWebServiceApplication.class, args);
 			String url = PM.pps.getProperty("WebServiceUrl");
