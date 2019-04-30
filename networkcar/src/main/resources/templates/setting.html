@@ -35,7 +35,7 @@
                 <div class="col-lg-12">
 	                <div class="panel panel-primary">
 	                     <div class="panel-heading">
-	                         <h3 class="panel-title"><i class="fa fa-money"></i>实时监控车辆</h3>
+	                         <h3 class="panel-title"><i class="fa fa-money"></i>设置</h3>
 	                     </div>
 	                     <div class="panel-body">
 	                         <div class="table-responsive">
@@ -74,7 +74,7 @@
     </div>
     <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
     <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
-    <script>$("#navul").children()[6].className="active";</script>
+    <script>$("#li_setting")[0].className="active";</script>
     <script>
         function xiugai(value){
         	$(value).parent().hide();
@@ -129,21 +129,27 @@
         	$(value).parent().parent().prevAll()[1].children[0].disabled = true;
         };
         function adduserView(){
-        	$("table").append("<tr><td><input type='email'></td><td><input type='password'></td><td>admin</td><td><a onclick=\"adduser(this)\">新增</a>/<a onclick=\"canceradduser(this)\">取消</a></td></tr>");
+        	$("table").append("<tr><td><input type='email'></td><td><input type='password'></td><td><input type=\"radio\" name=\"auth\" value=\"admin\" checked>admin<input type=\"radio\" name=\"auth\" value=\"driver\" checked>driver</td><td><a onclick=\"adduser(this)\">新增</a>/<a onclick=\"canceradduser(this)\">取消</a></td></tr>");
         }
         function adduser(value){
-        	console.log(value);
-        	if(($(value).parent().prevAll()[2]).children[0].checkValidity()){
+        	if(($(value).parent().prevAll()[2]).children[0].checkValidity() || true){
         		var password = ($(value).parent().prevAll()[1]).children[0].value;
         		var email = ($(value).parent().prevAll()[2]).children[0].value;
+        		var role = $(value).parent().prevAll()[0].children.auth.checked;
+        		if(role){
+        			role = "admin";
+        		}else{
+        			role = "driver";
+        		}
         		$.ajax({
                     type:"GET",
-                    url:"http://"+hosturl+":8080/api/adduser?email="+email+"&password="+password+"&role=admin",
+                    url:"http://"+hosturl+":8080/api/adduser?email="+email+"&password="+password+"&role="+role,
                     success:function(data){
                     	alert("新增成功");
                     	tr=$(value).parent().parent()[0];
                     	tr.children[0].innerHTML = "<td>"+email+"</td>";
                     	tr.children[1].innerHTML = "<td><input type='password' value='"+data+"' disabled></td>";
+                    	tr.children[2].innerHTML = "<td>"+role+"</td>";
                     	tr.children[3].innerHTML = "<div><a onclick='xiugai(this)'>修改</a>/<a onclick='deleteuser(this)'>删除</a></div>";
                     },
                     error:function(jqXHR){

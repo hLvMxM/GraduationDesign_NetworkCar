@@ -13,6 +13,7 @@
     <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
     <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
 	<script>
+
 		var dispart;
 		function search(){
 	        $.ajax({
@@ -96,6 +97,7 @@
         </div>
     </div>
     <script>
+	$("#li_count")[0].className = "active";
         function search(){
             driverid = $("#driverid")[0].value;
             $.ajax({

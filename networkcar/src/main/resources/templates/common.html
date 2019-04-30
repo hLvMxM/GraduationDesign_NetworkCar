@@ -3,22 +3,22 @@
 <body>
 <div th:fragment="navbar">
     <ul id="navul" class="nav navbar-nav side-nav">
-        <li><a style="color:#ffffff" href="index"><i class="fa fa-dashboard"></i> 主页</a></li>
-        <li><a style="color:#ffffff" href="orderhis"><i class="fa fa-bar-chart-o"></i> 历史轨迹查询</a></li>
-        <li><a style="color:#ffffff" href="thermodynamic"><i class="fa fa-table"></i> 热力图</a></li>
-        <li><a style="color:#ffffff" href="count"><i class="fa fa-font"></i> 车辆运营与用户统计</a></li>
-        <li><a style="color:#ffffff" href="predict"><i class="fa fa-desktop"></i> 用户出行量预测</a></li>
-        <li><a style="color:#ffffff" href="setting"><i class="fa fa-gear"></i> 设置</a></li>
+        <li id="li_index"><a style="color:#ffffff" href="index"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li id="li_history"><a style="color:#ffffff" href="orderhis"><i class="fa fa-bar-chart-o"></i> 历史轨迹查询</a></li>
+        <li id="li_the" th:if="${auth=='admin'}"><a style="color:#ffffff" href="thermodynamic"><i class="fa fa-table"></i> 热力图</a></li>
+        <li id="li_count" th:if="${auth=='admin'}"><a style="color:#ffffff" href="count"><i class="fa fa-font"></i> 车辆运营与用户统计</a></li>
+        <li id="li_pre"><a style="color:#ffffff" href="predict"><i class="fa fa-desktop"></i> 用户出行量预测</a></li>
+        <li id="li_setting" ><a style="color:#ffffff" href="setting"><i class="fa fa-gear"></i>设置</a></li>
     </ul>
     <script>
     	var serverurl = "192.168.1.100";
-    	var hosturl = "192.168.1.101";
+    	var hosturl = "192.168.1.107";
     </script>
 </div>
 <div th:fragment="header">
     <ul class="nav navbar-nav navbar-right navbar-user">
          <li class="dropdown user-dropdown" style="margin-right:20px">
-             <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#ffffff"><i class="fa fa-user"></i>&nbsp;管理员
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#ffffff"><i class="fa fa-user"></i><text th:text="${name}"></text>
                  <b class="caret"></b></a>
              <ul class="dropdown-menu" style="background-color:#337ab7">
                  <li><a href="setting"><i class="fa fa-gear"></i> 设置</a></li>

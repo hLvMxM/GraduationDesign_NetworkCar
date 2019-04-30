@@ -26,10 +26,11 @@ public class UserService implements UserDetailsService {
 	
 	private UserMapper usermapper = new UserMapperImpl();
 	
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		logger.info("用户的用户名: {}", username);
+		logger.info("用户的用户名是: {}", username);
 		User user = usermapper.selectByUsername(username);
 		if(user==null) {
 			throw new UsernameNotFoundException(String.format("User with username=%s was not found", username));
