@@ -31,6 +31,8 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+			.antMatchers("/count","/thermodynamic").hasAnyAuthority("admin")
+			.antMatchers("/orderhis","/predict","/setting","/index").hasAnyAuthority("admin","driver")
 			.antMatchers("/").authenticated()
 			.and()
 		.formLogin().loginPage("/login").defaultSuccessUrl("/index")
