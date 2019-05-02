@@ -81,5 +81,8 @@ public class User implements Serializable,UserDetails{
 		return true;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return id+","+username+","+password+","+role;
+	}
 }

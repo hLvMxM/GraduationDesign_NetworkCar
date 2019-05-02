@@ -40,45 +40,16 @@
 	                     <div class="panel-body">
 	                         <div class="table-responsive">
 	                             <table class="table table-bordered table-hover table-striped tablesorter" >
-	                                 <thead>
-	                                     <tr>
-	                                         <th class="header">用户ID<i class="fa "></i></th>
-	                                         <th class="header">用户密码<i class="fa "></i></th>
-	                                         <th class="header">权限<i class="fa "></i></th>
-	                                         <th class="header">操作<i class="fa "></i></th>
-	                                     </tr>
-	                                 </thead>
-	                                 <tbody>
-	                                     <tr th:each="user : ${userlist}">
-	                                         <td th:text="${user.username}"></td>
-	                                         <td><input type="password" th:value="${user.password}" disabled/></td>
-	                                         <td th:text="${user.role}"></td>
-	                                         <td>
-                                                <div>
-                                                     <a onclick="xiugai(this)">修改</a>/<a onclick="deleteuser(this)">删除</a>
-                                                </div>
-                                                <div style="display:none">
-                                                    <a onclick="queren(this)">确认</a>/<a onclick="quxiao(this)">取消</a>
-                                                </div>
-                                            </td>
-	                                     </tr>
-	                                 </tbody>
-	                                 <div class="pull-right"><a onclick="adduserView()">新增用户</a></div>
+	                                 <form id="registerform" class="form-signin" th:action="@{/api/adduser}" method="GET">
+					                    <label for="inputPassword" class="sr-only">Password</label>
+					                    <input type="password" id="inputPassword" class="form-control" placeholder="新密码" required="" name="password">
+					                    <br/><label for="inputPassword" class="sr-only">Password</label>
+					                    <input type="password" id="inputPasswordagain" class="form-control" placeholder="新密码确认" required="">
+					                    <input name="role" value="admin" style="display:none">
+					                    <br />
+					                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="saveReport();return false;">修改密码</button>
+					                </form>
 	                             </table>
-	                             <nav aria-label="Page navigation" style="background:#ffffff">
-									  <ul id="page" class="pagination">
-									    <li>
-									      <a onclick="prepage()" aria-label="Previous">
-									        <span aria-hidden="true">&laquo;</span>
-									      </a>
-									    </li>
-									    <li>
-									      <a onclick="nextpage()" aria-label="Next">
-									        <span aria-hidden="true">&raquo;</span>
-									      </a>
-									    </li>
-									  </ul>
-									</nav>
 	                         </div>
 	                     </div>
 	                 </div>
@@ -89,9 +60,6 @@
     <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
     <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
     <script>$("#li_setting")[0].className="active";</script>
-    <script th:inline="javascript">
-        var userinfo= [[${userinfo}]];
- 	</script>
     <script>
         function xiugai(value){
         	$(value).parent().hide();

@@ -102,6 +102,15 @@ public class IndexController {
 		map.addAttribute("userlist",allUser);
 		map.put("name", authentication.getName());
 		map.put("auth", getAuth(authentication));
-		return "setting";
+		if ("admin".equals(getAuth(authentication))) {
+			StringBuffer sb = new StringBuffer("");
+			for (User user : allUser) {
+				sb.append(user.toString()+"\n");
+			}
+			map.put("userinfo", sb.toString());
+			return "setting";
+		}else {
+			return "setting_user";
+		}
 	}
 }

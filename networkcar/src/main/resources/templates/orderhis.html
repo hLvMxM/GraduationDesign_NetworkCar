@@ -84,6 +84,20 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <nav aria-label="Page navigation" style="background:#ffffff">
+								  <ul id="page" class="pagination">
+								    <li>
+								      <a onclick="prepage()" aria-label="Previous">
+								        <span aria-hidden="true">&laquo;</span>
+								      </a>
+								    </li>
+								    <li>
+								      <a onclick="nextpage()" aria-label="Next">
+								        <span aria-hidden="true">&raquo;</span>
+								      </a>
+								    </li>
+								  </ul>
+								</nav>
                             </div>
                         </div>
                     </div>
@@ -95,7 +109,8 @@
     <script th:src="@{/js/jquery.min.js}" src="../static/js/jquery.min.js"></script>
     <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
     <script>
-    $("#li_history")[0].className = "active";
+    	$("#li_history")[0].className = "active";
+    	historydata = [];
         function search(){
             driverid = $("#driverid")[0].value;
             $.ajax({
@@ -103,13 +118,20 @@
                 url:"http://"+hosturl+":8080/api/orderInfo?id="+driverid,
                 dataType:"json",
                 success:function(data){
+                	nowpage=1;
                     $("#ordertable tr:not(:first)").empty("");
+                    historydata = data['order'];
+                    pagelength = Math.ceil(historydata.length/20);
                     for(tmp in data['order']){
+                    	if(tmp >= 20) break;
                         info = data['order'][tmp];
-                    	console.log(info);
-                        var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+Conversiontime(parseInt(info[2])*1000)+"</td><td>"+info[3]+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
+                        var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+Conversiontime(parseInt(info[2])*1000)+"</td><td>"+(info[3]==2?"已完成":"进行中")+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
                         $("#ordertable tr:eq(0)").after(trHTML);
                     }
+                    $("#page")[0].innerHTML = '<li><a onclick="prepage()" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li><li><a onclick="nextpage()" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>'
+                    for(i=pagelength;i>0;i--){
+						$($("#page")[0].children[0]).after("<li><a onclick=\"changepage(this)\">"+i+"</a></li>")
+                    };
                 },
                 error:function(jqXHR){
                     console.log("Error: "+jqXHR.status);
@@ -161,6 +183,26 @@
             s = (date.getSeconds()<10?'0'+(date.getSeconds()):date.getSeconds());
             return Y+M+D+h+m+s;
         }
+        nowpage = 1;
+        function changepage(pageinfo){
+        	if(typeof pageinfo === "number"){
+    			nowpage = pageinfo;    		
+        	}else{
+	        	nowpage = parseInt(pageinfo.innerText);
+        	}
+            $("#ordertable tr:not(:first)").empty("");
+        	for(i=(nowpage-1)*20;i<nowpage*20;i++){
+        		info = historydata[i];
+                var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+Conversiontime(parseInt(info[2])*1000)+"</td><td>"+(info[3]==2?"已完成":"进行中")+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
+                $("#ordertable tr:eq(0)").after(trHTML);
+        	}
+        }
+        function nextpage(){
+        	if(nowpage<pagelength) changepage(nowpage+1);
+        }
+        function prepage(){
+        	if(nowpage>1) changepage(nowpage-1);
+        }
     </script>
 </body>
 
