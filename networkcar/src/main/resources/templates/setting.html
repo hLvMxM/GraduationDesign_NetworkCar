@@ -48,20 +48,8 @@
 	                                         <th class="header">操作<i class="fa "></i></th>
 	                                     </tr>
 	                                 </thead>
-	                                 <tbody>
-	                                     <tr th:each="user : ${userlist}">
-	                                         <td th:text="${user.username}"></td>
-	                                         <td><input type="password" th:value="${user.password}" disabled/></td>
-	                                         <td th:text="${user.role}"></td>
-	                                         <td>
-                                                <div>
-                                                     <a onclick="xiugai(this)">修改</a>/<a onclick="deleteuser(this)">删除</a>
-                                                </div>
-                                                <div style="display:none">
-                                                    <a onclick="queren(this)">确认</a>/<a onclick="quxiao(this)">取消</a>
-                                                </div>
-                                            </td>
-	                                     </tr>
+	                                 <tbody id="userbody">
+	                                     
 	                                 </tbody>
 	                                 <div class="pull-right"><a onclick="adduserView()">新增用户</a></div>
 	                             </table>
@@ -90,7 +78,15 @@
     <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
     <script>$("#li_setting")[0].className="active";</script>
     <script th:inline="javascript">
-        var userinfo= [[${userinfo}]];
+    	nowpage = 1;
+        var usersinfo= [[${userinfo}]];
+        users = usersinfo.split("\n");
+        pagelength = Math.ceil(users.length / 10);
+        for(i in users){
+        	if(i>10) break;
+        	user = users[i].split(",");
+        	$("#userbody").append('<tr><td>'+user[1]+'</td><td><input type="password" value="'+user[2]+'" disabled/></td><td>'+user[3]+'</td><td><div><a onclick="xiugai(this)">修改</a>/<a onclick="deleteuser(this)">删除</a></div><div style="display:none"><a onclick="queren(this)">确认</a>/<a onclick="quxiao(this)">取消</a></div></td></tr>')
+        }
  	</script>
     <script>
         function xiugai(value){
@@ -178,6 +174,29 @@
         }
         function canceradduser(value){
         	$(value).parent().parent().empty();
+        }
+        
+        function changepage(pageinfo){
+        	if(typeof pageinfo === "number"){
+    			nowpage = pageinfo;    		
+        	}else{
+	        	nowpage = parseInt(pageinfo.innerText);
+        	}
+            $("#userbody")[0].innerHTML="";
+        	for(i=(nowpage-1)*10;i<nowpage*10;i++){
+        		if(users[i].search(",")!=-1){
+        			user = users[i].split(",");
+        		}else{
+        			continue;
+        		}
+            	$("#userbody").append('<tr><td>'+user[1]+'</td><td><input type="password" value="'+user[2]+'" disabled/></td><td>'+user[3]+'</td><td><div><a onclick="xiugai(this)">修改</a>/<a onclick="deleteuser(this)">删除</a></div><div style="display:none"><a onclick="queren(this)">确认</a>/<a onclick="quxiao(this)">取消</a></div></td></tr>')
+        	}
+        }
+        function nextpage(){
+        	if(nowpage<pagelength) changepage(nowpage+1);
+        }
+        function prepage(){
+        	if(nowpage>1) changepage(nowpage-1);
         }
     </script>
 </body>

@@ -1,6 +1,10 @@
 package consumerKafkaToHashMap;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -16,6 +20,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
+import HbaseUtil.DBUtil;
 import HbaseUtil.HbaseUtil;
 import Properties.PM;
 import readFileAndSendKafka.ReadFileSendKafka;
@@ -40,7 +45,8 @@ public class SimpleKafkaConsumer {
 			Long valueOf = Long.valueOf(tmpString.split(",")[2]);
 			if(System.currentTimeMillis()/1000-getdispart()-3600>valueOf)
 				list.add(entry.getKey());
-			stringBuilder.append("\""+tmpString+"\"");
+			String nameAndPhone = HbaseUtil.getNameAndPhone(tmpString.split(",")[0]);
+			stringBuilder.append("\""+tmpString + "," + nameAndPhone +"\"");
 		}
 		for (String string : list) {
 			position.remove(string);

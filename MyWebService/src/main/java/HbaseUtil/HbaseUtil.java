@@ -407,6 +407,23 @@ public class HbaseUtil {
 		}
 		return count;
 	}
+	public static String getNameAndPhone(String key) {
+		Get get = new Get(key.getBytes());
+		get.addColumn("name".getBytes(), null);
+		get.addColumn("phone".getBytes(), null);
+		String re = "";
+		try {
+			Result result = distinctTable.get(get);
+			String name = Bytes.toString(result.getValue("name".getBytes(), null));
+			String phone = Bytes.toString(result.getValue("phone".getBytes(), null));
+			re = phone + "," + name;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return re;
+	}
+	
 	public static String getOrderInfo(String key) {
 		Get get = new Get(key.getBytes());
 		get.addColumn("driverid".getBytes(), null);

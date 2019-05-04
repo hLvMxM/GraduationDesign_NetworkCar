@@ -62,6 +62,8 @@
                                     <table class="table table-bordered table-hover table-striped tablesorter">
                                         <thead>
                                             <tr>
+                                                <th class="header">司机姓名<i class="fa fa-sort"></i></th>
+                                                <th class="header">司机手机<i class="fa fa-sort"></i></th>
                                                 <th class="header">司机ID<i class="fa fa-sort"></i></th>
                                                 <th class="header">订单ID<i class="fa fa-sort"></i></th>
                                                 <th class="header">最新位置<i class="fa fa-sort"></i></th>
@@ -70,12 +72,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>3319</td>
-                                                <td>10/21/2013</td>
-                                                <td>2:13 PM</td>
-                                                <td>$943.45</td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -105,10 +102,10 @@
                         for (tmp in data) {
                             var a = data[tmp].split(",");
                             var p = new BMap.Point(a[3], a[4]);
-                            p.data = a[0]+","+a[1];
+                            p.data = a[0]+","+a[1]+","+a[7]+","+a[6];
                             points.push(p);
                             if(tmp<=10)
-                                $("tbody").append("<tr><td>"+a[0]+"</td><td>"+a[1]+"</td><td>"+a[3].substr(0,6)+","+a[4].substr(0,6)+"</td><td>"+getLocalTime(a[2])+"</td><td><a>查看</a></td></tr>");
+                                $("tbody").append("<tr><td>"+a[7]+"</td><td>"+a[6]+"</td><td>"+a[0]+"</td><td>"+a[1]+"</td><td>"+a[3].substr(0,6)+","+a[4].substr(0,6)+"</td><td>"+getLocalTime(a[2])+"</td><td><a>查看</a></td></tr>");
                         }
                         var options = {
                             size: BMAP_POINT_SIZE_BIG,
@@ -117,7 +114,8 @@
                         }
                         var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
                         pointCollection.addEventListener('click', function (e) {
-                        alert('单击点的坐标为：' + e.point.data);  // 监听点击事件
+                        	strs = e.point.data.split(",");
+                        	alert("司机姓名为:"+strs[2]+",手机号为:"+strs[3]);
                         });
                         map.addOverlay(pointCollection);  // 添加Overlay
                     },

@@ -2,6 +2,7 @@ package xyz.dingjiacheng.networkcar.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 import xyz.dingjiacheng.networkcar.service.CountService;
 import xyz.dingjiacheng.networkcar.service.ScanService;
@@ -98,10 +101,6 @@ public class InfoController {
 		+ "\"done\":["+sb1.toString()+"]}";
 	}
 	
-	public static void main(String[] args) {
-		String scancount = (new InfoController()).scancount(1475491026L, 1475507711L);
-		System.out.println(scancount);
-	}
 	
 	@GetMapping("/api/position")
 	public String getPosition() { 
@@ -111,7 +110,13 @@ public class InfoController {
 	}
 	
 	@GetMapping("/api/orderInfo")
-	public String getOrderInfo(@RequestParam(name = "id", required = true) String driverID) {
+	public String getOrderInfo(@RequestParam(name = "id", required = true) String driverPhone) {
+		String driverIDandphone = ScanService.getID(driverPhone);
+		if(driverIDandphone==null) {
+			return "{\"order\":[]}";
+		}
+		String driverID = driverIDandphone.split(",")[0];
+		String driverName = driverIDandphone.split(",")[1];
 		String order = ScanService.getOrder(driverID);
 		if("".equals(order)||order==null||order.length()==0) {
 			return "{\"order\":[]}";
@@ -123,7 +128,7 @@ public class InfoController {
 			stringBuilder.append("[\""+info[0]+"\",\""+info[1]+"\",\""+info[4]+"\",\""+info[8]+"\"],");
 		}
 		String json = stringBuilder.toString();
-		json = "{\"order\":["+json.substring(0,json.length()-1)+"]}";
+		json = "{\"order\":["+json.substring(0,json.length()-1)+"],\"name\":\""+driverName+"\",\"phone\":\""+driverPhone+"\"}";
 		return json;
 	}
 	
@@ -276,5 +281,31 @@ public class InfoController {
 		}
 		sb.append("}");
 		return sb.toString();
+	}
+	
+	public static void main(String[] args) {
+		WebServiceImplService webServiceImplService = new WebServiceImplService();
+		WebServiceImpl webServiceImplPort = webServiceImplService.getWebServiceImplPort();
+		String  str =  webServiceImplPort.getPosition();
+		JSONObject parseObject = JSONObject.parseObject(str);
+		JSONArray jsonArray = parseObject.getJSONArray("position");
+		Connection conn = DBUtil.getConnection();
+		String sql = "select name,username from user where onlyid = ?";
+		try {
+		PreparedStatement pst = conn.prepareStatement(sql);
+		for (Object object : jsonArray) {
+			String value = (String) object;
+			value = value.split(",")[0];
+			pst.setString(1, value);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				//System.out.println(rs.getString(1)+":"+rs.getString(2));
+			}
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
 	}
 }

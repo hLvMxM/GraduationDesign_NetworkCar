@@ -98,11 +98,11 @@ public class IndexController {
 	
 	@GetMapping("/setting")
 	public String setting(Authentication authentication,ModelMap map) {
-		List<User> allUser = (new UserService()).loadAllUser();
-		map.addAttribute("userlist",allUser);
 		map.put("name", authentication.getName());
 		map.put("auth", getAuth(authentication));
 		if ("admin".equals(getAuth(authentication))) {
+			List<User> allUser = (new UserService()).loadAllUser();
+			map.addAttribute("userlist",allUser);
 			StringBuffer sb = new StringBuffer("");
 			for (User user : allUser) {
 				sb.append(user.toString()+"\n");

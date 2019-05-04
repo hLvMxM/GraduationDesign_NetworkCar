@@ -9,6 +9,9 @@
     <link th:href="@{/css/font-awesome.css}" href="../static/css/font-awesome.css" rel="stylesheet" />
     <link th:href="@{/css/sb-admin.css}" href="../static/css/sb-admin.css" rel="stylesheet" />
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=lHx4zGMQYD0KbWKsXHtA1XQBtsn9gruX"></script>
+    <style>
+		.BMapLabel{ max-width:none; }
+	</style>
 </head>
 
 <body>
@@ -73,6 +76,8 @@
                                     <table id="ordertable" class="table table-bordered table-hover table-striped tablesorter">
                                         <thead>
                                             <tr>
+                                                <th class="header">司机姓名<i class="fa fa-sort"></i></th>
+                                                <th class="header">司机电话<i class="fa fa-sort"></i></th>
                                                 <th class="header">司机ID<i class="fa fa-sort"></i></th>
                                                 <th class="header">订单ID<i class="fa fa-sort"></i></th>
                                                 <th class="header">开始时间<i class="fa fa-sort"></i></th>
@@ -125,7 +130,7 @@
                     for(tmp in data['order']){
                     	if(tmp >= 20) break;
                         info = data['order'][tmp];
-                        var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+Conversiontime(parseInt(info[2])*1000)+"</td><td>"+(info[3]==2?"已完成":"进行中")+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
+                        var trHTML = "<tr><td>"+data['name']+"</td><td>"+data['phone']+"</td><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+Conversiontime(parseInt(info[2])*1000)+"</td><td>"+(info[3]==2?"已完成":"进行中")+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
                         $("#ordertable tr:eq(0)").after(trHTML);
                     }
                     $("#page")[0].innerHTML = '<li><a onclick="prepage()" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li><li><a onclick="nextpage()" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>'
@@ -139,6 +144,11 @@
             });
         }
         var polylines = {};
+        function addMarker(point,label){
+    		var marker = new BMap.Marker(point);
+    		map.addOverlay(marker);
+    		marker.setLabel(label);
+    	}
         function findposition(orderid){
             if(polylines[orderid]!=undefined)
             	return;
@@ -160,6 +170,13 @@
 	                    strokeColor:"#18a45b" //折线颜色
                     });
                     polylines[orderid] = polyline;
+                    var point = new BMap.Point(data['position'][0][0],data['position'][0][1]);
+            		var label = new BMap.Label("起点："+orderid,{offset:new BMap.Size(20,-10)});
+            		addMarker(point,label);
+            		leng_index = data['position']['length'] - 1;
+            		point = new BMap.Point(data['position'][leng_index][0],data['position'][leng_index][1]);
+            		label = new BMap.Label("终点："+orderid,{offset:new BMap.Size(20,-10)});
+            		addMarker(point,label);
                     map.addOverlay(polyline);          //增加折线
                 },
                 error:function(jqXHR){
@@ -168,10 +185,31 @@
             });
         }
         function removePosition(orderid){
+        	var allOverlay = map.getOverlays();
         	if(polylines[orderid]!=undefined){
         		map.removeOverlay(polylines[orderid]);
         		delete polylines[orderid];
         	}
+        	for (var i = 0; i < allOverlay.length -1; i++){
+        		str1 = "终点："+orderid;
+        		if(allOverlay[i].getLabel==undefined||allOverlay[i].getLabel()==null){
+        			continue;
+        		}
+    			if(allOverlay[i].getLabel().content == str1){
+    				map.removeOverlay(allOverlay[i]);
+    				break;
+    			}
+    		}
+        	for (var i = 0; i < allOverlay.length -1; i++){
+        		str1 = "起点："+orderid;
+        		if(allOverlay[i].getLabel==undefined||allOverlay[i].getLabel()==null){
+        			continue;
+        		}
+    			if(allOverlay[i].getLabel().content == str1){
+    				map.removeOverlay(allOverlay[i]);
+    				break;
+    			}
+    		}
         }
         function Conversiontime(timestamp) {
         	var date = new Date(timestamp);

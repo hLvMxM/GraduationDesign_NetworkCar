@@ -74,6 +74,11 @@
             <scope>system</scope>
             <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
     	</dependency>
+    	<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.54</version>
+		</dependency>
     	
 	</dependencies>
 
