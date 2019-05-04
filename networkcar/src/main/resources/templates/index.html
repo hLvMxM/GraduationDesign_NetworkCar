@@ -40,7 +40,7 @@
                 </div>
                 <script type="text/javascript">
                 var map = new BMap.Map("allmap",{minZoom:15});    // 创建Map实例           
-                map.centerAndZoom("成都",13);
+                map.centerAndZoom(new BMap.Point(104.0862075, 30.68233750), 13);
                 //添加地图类型控件
                 map.addControl(new BMap.MapTypeControl({
                     mapTypes:[
@@ -105,7 +105,7 @@
                             p.data = a[0]+","+a[1]+","+a[7]+","+a[6];
                             points.push(p);
                             if(tmp<=10)
-                                $("tbody").append("<tr><td>"+a[7]+"</td><td>"+a[6]+"</td><td>"+a[0]+"</td><td>"+a[1]+"</td><td>"+a[3].substr(0,6)+","+a[4].substr(0,6)+"</td><td>"+getLocalTime(a[2])+"</td><td><a>查看</a></td></tr>");
+                                $("tbody").append("<tr><td>"+a[7]+"</td><td>"+a[6]+"</td><td>"+a[0]+"</td><td>"+a[1]+"</td><td value=\""+a[3]+","+a[4]+"\">"+a[3].substr(0,6)+","+a[4].substr(0,6)+"</td><td>"+getLocalTime(a[2])+"</td><td><a onclick='find(this)'>查看</a></td></tr>");
                         }
                         var options = {
                             size: BMAP_POINT_SIZE_BIG,
@@ -129,6 +129,11 @@
         function getLocalTime(nS) {     
        	   return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
        	}
+        function find(value){
+        	str = value.parentElement.previousElementSibling.previousElementSibling.attributes[0]["value"]
+        	strs = str.split(",");
+        	map.centerAndZoom(new BMap.Point(strs[0], strs[1]), 20);
+        }
     </script>
 </body>
 

@@ -110,7 +110,7 @@ public class InfoController {
 	}
 	
 	@GetMapping("/api/orderInfo")
-	public String getOrderInfo(@RequestParam(name = "id", required = true) String driverPhone) {
+	public String getOrderInfo(@RequestParam(name = "id", required = true) String driverPhone,@RequestParam(name = "type", required = true) String type) {
 		String driverIDandphone = ScanService.getID(driverPhone);
 		if(driverIDandphone==null) {
 			return "{\"order\":[]}";

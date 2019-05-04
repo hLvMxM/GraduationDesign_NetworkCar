@@ -43,7 +43,7 @@
                 </div>
                 <script type="text/javascript">
                 var map = new BMap.Map("allmap",{minZoom:1});    // 创建Map实例           
-                map.centerAndZoom("成都",13);
+                map.centerAndZoom(new BMap.Point(104.0862075, 30.68233750), 13);
                 //添加地图类型控件
                 map.addControl(new BMap.MapTypeControl({
                     mapTypes:[
@@ -63,9 +63,15 @@
                             <div class="panel-body">
                             	<div class="panel-title" style="display:inline">
                                     <div class="row">
-	                                    <div class="col-lg-9">
+	                                    <div class="col-lg-8">
 	                                    	<input type="text" class="form-control" id="driverid" placeholder="请输入司机ID">
 	                                    </div>
+	                                    <div class="col-lg-1">
+		                                    <select id="searchtype" class="form-control" style="display:none">
+												<option>手机</option>
+												<option>ID</option>
+											</select>
+										</div>
 	                                    <div class="col-lg-3">
 	                                    	<button type="submit" class="btn btn-default" onclick="search()">查询</button>
 	                                    </div>
@@ -117,10 +123,17 @@
     	$("#li_history")[0].className = "active";
     	historydata = [];
         function search(){
+        	searchtype = $("#searchtype option:selected").text();
+        	stype = "";
+        	if(searchtype=="ID"){
+        		stype = "id";
+        	}else{
+        		stype = "phone";
+        	}
             driverid = $("#driverid")[0].value;
             $.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/orderInfo?id="+driverid,
+                url:"http://"+hosturl+":8080/api/orderInfo?id="+driverid+"&type="+stype,
                 dataType:"json",
                 success:function(data){
                 	nowpage=1;
