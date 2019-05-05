@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -110,7 +113,10 @@ public class InfoController {
 	}
 	
 	@GetMapping("/api/orderInfo")
-	public String getOrderInfo(@RequestParam(name = "id", required = true) String driverPhone,@RequestParam(name = "type", required = true) String type) {
+	public String getOrderInfo(@RequestParam(name = "id", required = true) String driverPhone,@RequestParam(name = "type", required = true) String type,Authentication authentication) {
+		if("driver".equals(getAuth(authentication)) && !driverPhone.equals(authentication.getName())) {
+			return "{\"order\":[]}";
+		}
 		String driverIDandphone = ScanService.getID(driverPhone);
 		if(driverIDandphone==null) {
 			return "{\"order\":[]}";
@@ -307,5 +313,13 @@ public class InfoController {
 			e.printStackTrace();
 		}		
 		
+	}
+	
+	private String getAuth(Authentication authentication) {
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		for (GrantedAuthority grantedAuthority : authorities) {
+			return grantedAuthority.getAuthority();
+		}
+		return "driver";
 	}
 }

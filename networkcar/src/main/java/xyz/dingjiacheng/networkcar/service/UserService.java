@@ -57,6 +57,134 @@ public class UserService implements UserDetailsService {
 		}
 	}
 	
+	public List<User> loadAllUserByPage(int page) {
+		List<User> list = new ArrayList<User>();
+		Connection conn = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			conn = DBUtil.getConnection();
+			pst = conn.prepareStatement("select * from user LIMIT ?,?");
+			pst.setInt(1, (page-1)*10);
+			pst.setInt(2, (page)*10);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				User u = new User(rs.getString(2), rs.getString(3), rs.getString(4));
+				list.add(u);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pst!=null)
+					pst.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}try {
+				if(rs!=null)
+					rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}try {
+				if(conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
+		}
+		return list;
+
+	}
+	
+	public List<User> loadAllUserByUsername(String username) {
+		List<User> list = new ArrayList<User>();
+		Connection conn = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			conn = DBUtil.getConnection();
+			pst = conn.prepareStatement("select * from user where username = ?");
+			pst.setString(1, username);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				User u = new User(rs.getString(2), rs.getString(3), rs.getString(4));
+				list.add(u);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pst!=null)
+					pst.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}try {
+				if(rs!=null)
+					rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}try {
+				if(conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
+		}
+		return list;
+
+	}
+	
+	public Integer countalluser() {
+		List<User> list = new ArrayList<User>();
+		Connection conn = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			conn = DBUtil.getConnection();
+			pst = conn.prepareStatement("select count(*) from user");
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pst!=null)
+					pst.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}try {
+				if(rs!=null)
+					rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}try {
+				if(conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
+		}
+		return 0;
+
+	}
+	
 	public List<User> loadAllUser(){
 		List<User> list = new ArrayList<User>();
 		Connection conn = null;

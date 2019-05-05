@@ -54,18 +54,11 @@
 	                                 <div class="pull-right"><a onclick="adduserView()">新增用户</a></div>
 	                             </table>
 	                             <nav aria-label="Page navigation" style="background:#ffffff">
-									  <ul id="page" class="pagination">
-									    <li>
-									      <a onclick="prepage()" aria-label="Previous">
-									        <span aria-hidden="true">&laquo;</span>
-									      </a>
-									    </li>
-									    <li>
-									      <a onclick="nextpage()" aria-label="Next">
-									        <span aria-hidden="true">&raquo;</span>
-									      </a>
-									    </li>
-									  </ul>
+									  <form action="setting" method="get">
+									  	页码：<input id="pageid" name="page" style="width:50px">/<label id="pagelength">共1页</label>
+									  	用户名查询：<input id="username" name="username" style="width:100px">
+									  	<button type="submit" value="提交">提交</button>
+									  </form>
 									</nav>
 	                         </div>
 	                     </div>
@@ -80,13 +73,17 @@
     <script th:inline="javascript">
     	nowpage = 1;
         var usersinfo= [[${userinfo}]];
+        var length= [[${length}]];
+        var page= [[${page}]];
         users = usersinfo.split("\n");
         pagelength = Math.ceil(users.length / 10);
         for(i in users){
-        	if(i>10) break;
+        	if(i>=10) break;
         	user = users[i].split(",");
+        	if(user[1]==undefined) break;
         	$("#userbody").append('<tr><td>'+user[1]+'</td><td><input type="password" value="'+user[2]+'" disabled/></td><td>'+user[3]+'</td><td><div><a onclick="xiugai(this)">修改</a>/<a onclick="deleteuser(this)">删除</a></div><div style="display:none"><a onclick="queren(this)">确认</a>/<a onclick="quxiao(this)">取消</a></div></td></tr>')
         }
+        $("#pagelength")[0].innerHTML = "共"+Math.ceil(length/10)+"页";
  	</script>
     <script>
         function xiugai(value){
@@ -107,6 +104,7 @@
                     success:function(data){
                     	alert("已删除");
                     	$(value).parent().parent().parent().empty();
+                    	history.go(0);
                     },
                     error:function(jqXHR){
                     	alert("删除失败，请重试");
@@ -127,6 +125,7 @@
             		$(value).parent().prev().show();
                 	$(value).parent().parent().prevAll()[1].children[0].value = data;
                 	$(value).parent().parent().prevAll()[1].children[0].disabled = true;
+                	history.go(0);
                 },
                 error:function(jqXHR){
                 	alert("修改失败，请重试");
@@ -164,6 +163,7 @@
                     	tr.children[1].innerHTML = "<td><input type='password' value='"+data+"' disabled></td>";
                     	tr.children[2].innerHTML = "<td>"+role+"</td>";
                     	tr.children[3].innerHTML = "<div><a onclick='xiugai(this)'>修改</a>/<a onclick='deleteuser(this)'>删除</a></div>";
+                    	history.go(0);
                     },
                     error:function(jqXHR){
                     	alert("新增失败，请重试");
@@ -198,6 +198,7 @@
         function prepage(){
         	if(nowpage>1) changepage(nowpage-1);
         }
+        $("#pageid")[0].value = page;
     </script>
 </body>
 

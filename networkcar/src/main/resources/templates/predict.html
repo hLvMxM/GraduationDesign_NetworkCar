@@ -9,6 +9,10 @@
     <link th:href="@{/css/font-awesome.css}" href="../static/css/font-awesome.css" rel="stylesheet" />
     <link th:href="@{/css/sb-admin.css}" href="../static/css/sb-admin.css" rel="stylesheet" />
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=lHx4zGMQYD0KbWKsXHtA1XQBtsn9gruX"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+    <style>
+		.BMapLabel{ max-width:none; }
+	</style>
 </head>
 
 <body>
@@ -57,13 +61,55 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-money"></i>预测车辆</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body col-lg-3">
                                 <div class="table-responsive">
-                                    <table id="ordertable" class="table table-bordered table-hover table-striped tablesorter">
+                                    <table id="ordertable0" class="table table-bordered table-hover table-striped tablesorter">
                                         <thead>
                                             <tr>
-                                                <th class="header">区域ID<i class="fa fa-sort"></i></th>
-                                                <th class="header">预测数量<i class="fa fa-sort"></i></th>
+                                                <th class="header">区域ID<i class="fa"></i></th>
+                                                <th class="header">预测数量<i class="fa"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-body col-lg-3">
+                                <div class="table-responsive">
+                                    <table id="ordertable1" class="table table-bordered table-hover table-striped tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th class="header">区域ID<i class="fa"></i></th>
+                                                <th class="header">预测数量<i class="fa"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-body col-lg-3">
+                                <div class="table-responsive">
+                                    <table id="ordertable2" class="table table-bordered table-hover table-striped tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th class="header">区域ID<i class="fa"></i></th>
+                                                <th class="header">预测数量<i class="fa"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-body col-lg-3">
+                                <div class="table-responsive">
+                                    <table id="ordertable3" class="table table-bordered table-hover table-striped tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th class="header">区域ID<i class="fa"></i></th>
+                                                <th class="header">预测数量<i class="fa"></i></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -93,7 +139,7 @@
                     for(tmp in data['order']){
                         info = data['order'][tmp];
                         var trHTML = "<tr><td>"+info[0]+"</td><td><a onclick='findposition(this.text)'>"+info[1]+"</a></td><td>"+Conversiontime(parseInt(info[2])*1000)+"</td><td>"+info[3]+"</td><td><a onclick='findposition($(this).parent().prevAll()[2].children[0].innerText)'>显示</a>/<a onclick='removePosition($(this).parent().prevAll()[2].children[0].innerText)'>隐藏</a></td></tr>";
-                        $("#ordertable tr:eq(0)").after(trHTML);
+                        $("#ordertable0 tr:eq(0)").after(trHTML);
                     }
                 },
                 error:function(jqXHR){
@@ -101,6 +147,57 @@
                 }
             });
         }
+        points=[{"value":0,"lat":30.660437177286585,"lng":104.0677834828125
+        },{"value":1,"lat":30.708169738004898,"lng":104.11084339051408
+        },{"value":2,"lat":30.699190969117335,"lng":104.04992763622569
+        },{"value":3,"lat":30.66957787605105,"lng":104.09793661629129
+        },{"value":4,"lat":30.69279933186517,"lng":104.08135395721348
+        },{"value":5,"lat":30.730570467519183,"lng":104.06573181496164
+        },{"value":6,"lat":30.66136004169429,"lng":104.10805406876611
+        },{"value":7,"lat":30.675777329591018,"lng":104.12933583344025
+        },{"value":8,"lat":30.66328001047842,"lng":104.08826841890276
+        },{"value":9,"lat":30.670782508958514,"lng":104.04968019527803
+        },{"value":10,"lat":30.678863549753288,"lng":104.0660239243421
+        },{"value":11,"lat":30.721669081893005,"lng":104.13518708230453
+        },{"value":12,"lat":30.686720319150744,"lng":104.09084408012738
+        },{"value":13,"lat":30.733619456832752,"lng":104.05394678288111
+        },{"value":14,"lat":30.687713374725277,"lng":104.10133664078862
+        },{"value":15,"lat":30.70883197691746,"lng":104.0768285787436
+        },{"value":16,"lat":30.661616878311445,"lng":104.0750731617636
+        },{"value":17,"lat":30.720044039364037,"lng":104.11745692642543
+        },{"value":18,"lat":30.731575147593933,"lng":104.08195672234673
+        },{"value":19,"lat":30.661337564565006,"lng":104.12148683724341
+        },{"value":20,"lat":30.71256915938501,"lng":104.05144997328635
+        },{"value":21,"lat":30.674671155755895,"lng":104.10815501546463
+        },{"value":22,"lat":30.731378638643534,"lng":104.11465481411672
+        },{"value":23,"lat":30.70454096443941,"lng":104.06175123125708
+        },{"value":24,"lat":30.682391366470153,"lng":104.04941374642594
+        },{"value":25,"lat":30.690198600548698,"lng":104.11337825226337
+        },{"value":26,"lat":30.67392416395939,"lng":104.07504539175127
+        },{"value":27,"lat":30.700317238087965,"lng":104.07871508396457
+        },{"value":28,"lat":30.717839449356223,"lng":104.10581915600858
+        },{"value":29,"lat":30.676610249790137,"lng":104.11752679721931
+        },{"value":30,"lat":30.660457279299195,"lng":104.09449775412399
+        },{"value":31,"lat":30.7106657491656,"lng":104.08551113786906
+        },{"value":32,"lat":30.69074469821894,"lng":104.05131842893137
+        },{"value":33,"lat":30.687716699144385,"lng":104.1222842828877
+        },{"value":34,"lat":30.672347298176135,"lng":104.0853675
+        },{"value":35,"lat":30.688921953495008,"lng":104.13486498730386
+        },{"value":36,"lat":30.680276966782408,"lng":104.08101499508102
+        },{"value":37,"lat":30.708256956039605,"lng":104.10097432429043
+        },{"value":38,"lat":30.692059083944955,"lng":104.06717624231652
+        },{"value":39,"lat":30.675015428660217,"lng":104.13575617030386
+        },{"value":40,"lat":30.66161075148613,"lng":104.08137865105681
+        },{"value":41,"lat":30.71799179353718,"lng":104.07256405726199
+        },{"value":42,"lat":30.72723448610586,"lng":104.05024477221173
+        },{"value":43,"lat":30.66005622838235,"lng":104.05914521735293
+        },{"value":44,"lat":30.69661164759648,"lng":104.0918072167908
+        },{"value":45,"lat":30.670078358182707,"lng":104.06059869506595
+        },{"value":46,"lat":30.71274653306233,"lng":104.13465178184282
+        },{"value":47,"lat":30.68167860331384,"lng":104.05798488820663
+        },{"value":48,"lat":30.70716875602606,"lng":104.12096294201955
+        },{"value":49,"lat":30.663899818734794,"lng":104.13466286423358
+        }];
         var polylines = {};
         function findposition(){
         	$.ajax({
@@ -108,11 +205,21 @@
                 url:"http://"+hosturl+":8080/api/getpre",
                 dataType:"json",
                 success:function(data){
-                	console.log(data);
+            		map.clearOverlays();
                 	for(i=50;i>0;i--){
-                		var trHTML = "<tr><td>"+i+"</td><td><a onclick='findposition(this.text)'>"+data[i]+"</a></td></tr>";
-                        $("#ordertable tr:eq(0)").after(trHTML);
+                		points[i-1]["count"] = data[i];
+                		var trHTML = "<tr><td>"+i+"</td><td><a onclick='position(this)'>"+data[i]+"</a></td></tr>";
+                		var point = new BMap.Point(points[i-1]["lng"],points[i-1]["lat"]);
+                		var label = new BMap.Label("区域："+i+",预测订单量为:"+data[i],{offset:new BMap.Size(20,-10)});
+                		addMarker(point,label);
+                		str = "#ordertable";
+                		str1 = " tr:eq(0)";
+                		$(str+((i-1)%4)+str1).after(trHTML);
                 	}
+                	heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":100});
+                	map.addOverlay(heatmapOverlay);
+                	heatmapOverlay.setDataSet({data:points,max:200});
+                	heatmapOverlay.show();
                 },
                 error:function(jqXHR){
                     console.log("Error: "+jqXHR.status);
@@ -120,6 +227,16 @@
             });
         }
         findposition();
+        function position(value){
+        	mypoint = points[parseInt(value.parentElement.previousElementSibling.textContent)-1];
+        	map.centerAndZoom(new BMap.Point(mypoint["lng"], mypoint["lat"]), 17);
+        }
+        function addMarker(point,label){
+    		var marker = new BMap.Marker(point);
+    		map.addOverlay(marker);
+    		marker.setLabel(label);
+    	}
+        
     </script>
 </body>
 

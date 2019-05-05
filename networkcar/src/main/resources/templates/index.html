@@ -72,9 +72,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
                                         </tbody>
                                     </table>
+                                    <nav aria-label="Page navigation" style="background:#ffffff">
+										  <div>
+										  	页码：<input id="pageid" name="page" value="1" style="width:50px">/<label id="pagelength">共1页</label>
+										  	<button value="提交" onclick="getpage()" >提交</button>
+										  	名称或手机号：<input id="username" name="username" style="width:100px">
+										  </div>
+										</nav>
                                 </div>
                             </div>
                         </div>
@@ -88,6 +94,7 @@
     <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
     <script>$("#navul").children()[0].className="active";</script>
     <script>
+		nowpage = 1;
     	$("#li_index")[0].className = "active";
         function getposition(){
             $.ajax({
@@ -98,15 +105,9 @@
                         map.clearOverlays();
                         data = data.position;
                         var points = [];  // 添加海量点数据
-                        $("tbody").empty();
-                        for (tmp in data) {
-                            var a = data[tmp].split(",");
-                            var p = new BMap.Point(a[3], a[4]);
-                            p.data = a[0]+","+a[1]+","+a[7]+","+a[6];
-                            points.push(p);
-                            if(tmp<=10)
-                                $("tbody").append("<tr><td>"+a[7]+"</td><td>"+a[6]+"</td><td>"+a[0]+"</td><td>"+a[1]+"</td><td value=\""+a[3]+","+a[4]+"\">"+a[3].substr(0,6)+","+a[4].substr(0,6)+"</td><td>"+getLocalTime(a[2])+"</td><td><a onclick='find(this)'>查看</a></td></tr>");
-                        }
+						data = dataall.filter(iscontain);
+						refreshtable();
+                       	$("#pagelength")[0].innerHTML = "共"+Math.ceil(data.length/10)+"页";
                         var options = {
                             size: BMAP_POINT_SIZE_BIG,
                             shape: BMAP_POINT_SHAPE_STAR,
@@ -129,6 +130,28 @@
         function getLocalTime(nS) {     
        	   return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
        	}
+        function getpage(){
+        	nowpage = parseInt($("#pageid")[0].value);
+        	refreshtable();
+        }
+        function iscontain(strs){
+        	value = $("#username")[0].value;
+        	str = strs.split(",");
+        	return str[7].indexOf(value) != -1 || str[6].indexOf(value) != -1;
+        }
+        function refreshtable(){
+        	
+        	var points = [];  // 添加海量点数据
+            $("tbody").empty();
+            for (tmp=(nowpage-1)*10;tmp<(nowpage)*10;tmp++) {
+            	if(data[tmp]==undefined) break;
+            	var a = data[tmp].split(",");
+                var p = new BMap.Point(a[3], a[4]);
+                p.data = a[0]+","+a[1]+","+a[7]+","+a[6];
+                points.push(p);
+                $("tbody").append("<tr><td>"+a[7]+"</td><td>"+a[6]+"</td><td>"+a[0]+"</td><td>"+a[1]+"</td><td value=\""+a[3]+","+a[4]+"\">"+a[3].substr(0,6)+","+a[4].substr(0,6)+"</td><td>"+getLocalTime(a[2])+"</td><td><a onclick='find(this)'>查看</a></td></tr>");
+            }
+        }
         function find(value){
         	str = value.parentElement.previousElementSibling.previousElementSibling.attributes[0]["value"]
         	strs = str.split(",");

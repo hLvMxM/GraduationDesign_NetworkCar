@@ -82,13 +82,13 @@
                                     <table id="ordertable" class="table table-bordered table-hover table-striped tablesorter">
                                         <thead>
                                             <tr>
-                                                <th class="header">司机姓名<i class="fa fa-sort"></i></th>
-                                                <th class="header">司机电话<i class="fa fa-sort"></i></th>
-                                                <th class="header">司机ID<i class="fa fa-sort"></i></th>
-                                                <th class="header">订单ID<i class="fa fa-sort"></i></th>
-                                                <th class="header">开始时间<i class="fa fa-sort"></i></th>
-                                                <th class="header">订单状态<i class="fa fa-sort"></i></th>
-                                                <th class="header">操作<i class="fa fa-sort"></i></th>
+                                                <th class="header">司机姓名<i class="fa"></i></th>
+                                                <th class="header">司机电话<i class="fa"></i></th>
+                                                <th class="header">司机ID<i class="fa"></i></th>
+                                                <th class="header">订单ID<i class="fa"></i></th>
+                                                <th class="header">开始时间<i class="fa"></i></th>
+                                                <th class="header">订单状态<i class="fa"></i></th>
+                                                <th class="header">操作<i class="fa"></i></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -140,6 +140,7 @@
                     $("#ordertable tr:not(:first)").empty("");
                     historydata = data['order'];
                     pagelength = Math.ceil(historydata.length/20);
+                    data['order'].sort(sortbytime);
                     for(tmp in data['order']){
                     	if(tmp >= 20) break;
                         info = data['order'][tmp];
@@ -155,6 +156,9 @@
                     console.log("Error: "+jqXHR.status);
                 }
             });
+        }
+        function sortbytime(a,b){
+        	return parseInt(a[2]) - parseInt(b[2]);
         }
         var polylines = {};
         function addMarker(point,label){
@@ -254,6 +258,14 @@
         function prepage(){
         	if(nowpage>1) changepage(nowpage-1);
         }
+    </script>
+    <script th:inline="javascript">
+	var name= [[${name}]];
+	var auth= [[${auth}]];
+	if(auth==="driver"){
+		$("#driverid")[0].value = name;
+		$("#driverid")[0].disabled = true
+	}
     </script>
 </body>
 

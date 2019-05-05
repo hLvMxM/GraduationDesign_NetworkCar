@@ -11,7 +11,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import io.netty.util.internal.StringUtil;
 import xyz.dingjiacheng.networkcar.model.User;
 import xyz.dingjiacheng.networkcar.service.UserService;
 
@@ -97,17 +99,37 @@ public class IndexController {
 	}
 	
 	@GetMapping("/setting")
-	public String setting(Authentication authentication,ModelMap map) {
+	public String setting(Authentication authentication,ModelMap map,@RequestParam(name = "page", required = false) Integer page,@RequestParam(name = "username", required = false) String username) {
 		map.put("name", authentication.getName());
 		map.put("auth", getAuth(authentication));
 		if ("admin".equals(getAuth(authentication))) {
-			List<User> allUser = (new UserService()).loadAllUser();
+			List<User> allUser = null;
+			int length = 0;
+			if(!StringUtil.isNullOrEmpty(username)) {
+				allUser = (new UserService()).loadAllUserByUsername(username);
+				length = allUser.size();
+			}else if (page==null) {
+				allUser = (new UserService()).loadAllUserByPage(1);
+				length =  (new UserService()).countalluser();
+			}else {
+				if (page<=1) {
+					page = 1;
+				}
+				allUser = (new UserService()).loadAllUserByPage(page);
+				length =  (new UserService()).countalluser();
+			}
 			map.addAttribute("userlist",allUser);
 			StringBuffer sb = new StringBuffer("");
 			for (User user : allUser) {
 				sb.append(user.toString()+"\n");
 			}
 			map.put("userinfo", sb.toString());
+			map.put("length",length);
+			if(page==null) {
+				page = 1;
+			}
+			if(page>length) page = length;
+			map.put("page",page);
 			return "setting";
 		}else {
 			return "setting_user";
