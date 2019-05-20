@@ -18,7 +18,7 @@
 		function search(){
 	        $.ajax({
 	            type:"GET",
-	            url:"http://192.168.1.101:8080/api/time",
+	            url:"http://"+hosturl+":"+port+"/api/time",
 	            dataType:"text",
 	            success:function(data){
 	            	console.log(data);
@@ -102,7 +102,7 @@
             driverid = $("#driverid")[0].value;
             $.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/orderInfo?id="+driverid,
+                url:"http://"+hosturl+":"+port+"/api/orderInfo?id="+driverid,
                 dataType:"json",
                 success:function(data){
                     $("#ordertable tr:not(:first)").empty("");
@@ -123,7 +123,7 @@
             	return;
         	$.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/positionInfo?id="+orderid,
+                url:"http://"+hosturl+":"+port+"/api/positionInfo?id="+orderid,
                 dataType:"json",
                 success:function(data){
                     var pois = [];
@@ -206,7 +206,7 @@
                     	var starttime = stoptime - 6000;
             	        $.ajax({
             	            type:"GET",
-            	            url:"http://192.168.1.101:8080/api/scancount?start="+starttime+"&stop="+stoptime,
+            	            url:"http://"+hosturl+":"+port+"/api/scancount?start="+starttime+"&stop="+stoptime,
             	            dataType:"json",
             	            success:function(data){
             	            	countdata = data["count"];
@@ -248,7 +248,7 @@
                     	var time = parseInt((new Date()).getTime()/1000) - dispart;
             	        $.ajax({
             	            type:"GET",
-            	            url:"http://192.168.1.101:8080/api/getcount?time="+time,
+            	            url:"http://"+hosturl+":"+port+"/api/getcount?time="+time,
             	            dataType:"json",
             	            success:function(data){
             	            	console.log(data);

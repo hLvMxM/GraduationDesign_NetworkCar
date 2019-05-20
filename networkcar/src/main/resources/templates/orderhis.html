@@ -133,7 +133,7 @@
             driverid = $("#driverid")[0].value;
             $.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/orderInfo?id="+driverid+"&type="+stype,
+                url:"http://"+hosturl+":"+port+"/api/orderInfo?id="+driverid+"&type="+stype,
                 dataType:"json",
                 success:function(data){
                 	nowpage=1;
@@ -171,7 +171,7 @@
             	return;
         	$.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/positionInfo?id="+orderid,
+                url:"http://"+hosturl+":"+port+"/api/positionInfo?id="+orderid,
                 dataType:"json",
                 success:function(data){
                     var pois = [];

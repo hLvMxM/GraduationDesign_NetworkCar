@@ -100,7 +100,7 @@
         	{
         		$.ajax({
                     type:"GET",
-                    url:"http://"+hosturl+":8080/api/deleteuser?email="+email,
+                    url:"http://"+hosturl+":"+port+"/api/deleteuser?email="+email,
                     success:function(data){
                     	alert("已删除");
                     	$(value).parent().parent().parent().empty();
@@ -118,7 +118,7 @@
         	password = $(value).parent().parent().prevAll()[1].children[0].value;
         	$.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/changepassword?email="+email+"&password="+password,
+                url:"http://"+hosturl+":"+port+"/api/changepassword?email="+email+"&password="+password,
                 success:function(data){
                 	alert("修改成功");
                 	$(value).parent().hide();
@@ -155,7 +155,7 @@
         		}
         		$.ajax({
                     type:"GET",
-                    url:"http://"+hosturl+":8080/api/adduser?email="+email+"&password="+password+"&role="+role,
+                    url:"http://"+hosturl+":"+port+"/api/adduser?email="+email+"&password="+password+"&role="+role,
                     success:function(data){
                     	alert("新增成功");
                     	tr=$(value).parent().parent()[0];

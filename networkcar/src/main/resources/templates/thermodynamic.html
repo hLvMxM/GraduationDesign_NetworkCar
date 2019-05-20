@@ -93,7 +93,7 @@
         	stoptime = Date.parse($("#stoptime")[0].value)/1000;
             $.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/thermodynamic?start="+starttime+"&stop="+stoptime,
+                url:"http://"+hosturl+":"+port+"/api/thermodynamic?start="+starttime+"&stop="+stoptime,
                 dataType:"json",
                 success:function(data){
                 	map.clearOverlays();

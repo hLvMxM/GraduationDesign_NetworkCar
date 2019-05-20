@@ -132,7 +132,7 @@
             driverid = $("#driverid")[0].value;
             $.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/orderInfo?id="+driverid,
+                url:"http://"+hosturl+":"+port+"/api/orderInfo?id="+driverid,
                 dataType:"json",
                 success:function(data){
                     $("#ordertable tr:not(:first)").empty("");
@@ -202,7 +202,7 @@
         function findposition(){
         	$.ajax({
                 type:"GET",
-                url:"http://"+hosturl+":8080/api/getpre",
+                url:"http://"+hosturl+":"+port+"/api/getpre",
                 dataType:"json",
                 success:function(data){
             		map.clearOverlays();

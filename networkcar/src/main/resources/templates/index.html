@@ -99,12 +99,13 @@
         function getposition(){
             $.ajax({
                     type:"GET",
-                    url:"http://"+hosturl+":8080/api/position",
+                    url:"http://"+hosturl+":"+port+"/api/position",
                     dataType:"json",
                     success:function(data){
                         map.clearOverlays();
                         data = data.position;
                         var points = [];  // 添加海量点数据
+                        dataall = data;
 						data = dataall.filter(iscontain);
 						refreshtable();
                        	$("#pagelength")[0].innerHTML = "共"+Math.ceil(data.length/10)+"页";
